@@ -1,0 +1,29 @@
+{
+  "name": "@topazdb/gui",
+  "version": "0.0.0",
+  "description": "Graphical interface for TopazDB",
+  "main": "index.js",
+  "scripts": {
+    "build:sass": "node-sass --output-style compressed src/assets/sass/main.scss src/assets/dist/main.css",
+    "watch:sass": "watch 'npm run build:sass' src/assets/sass",
+    "build": "npm run build:sass",
+    "watch": "npm run watch:sass",
+    "test": "http-server -c-2 -o src",
+    "postversion": "git push --follow-tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/topazdb/gui.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/topazdb/gui/issues"
+  },
+  "homepage": "https://github.com/topazdb/gui#readme",
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "node-sass": "^4.11.0",
+    "watch": "^1.0.2"
+  }
+}
