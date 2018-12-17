@@ -1,0 +1,13 @@
+$primaryColor: #22a8e0;
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Montserrat;
+}
+
+header {
+    background: $primaryColor;
+    color: white;
+}
