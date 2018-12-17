@@ -1,4 +1,4 @@
-$primaryColor: #22a8e0;
+$primaryColor: #FA8C2D;
 
 * {
     padding: 0;
@@ -10,4 +10,7 @@ $primaryColor: #22a8e0;
 header {
     background: $primaryColor;
     color: white;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
 }

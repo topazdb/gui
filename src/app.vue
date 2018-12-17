@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <header>
-            TopazDB
+            <h1>TopazDB</h1>
         </header>
 
         <router-view></router-view>

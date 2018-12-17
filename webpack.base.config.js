@@ -2,11 +2,9 @@ const path = require("path");
 const VueLoader = require("vue-loader");
 
 module.exports = {
-    entry: "./src/client.ts",
     output: {
         path: __dirname + "/dist",
-        publicPath: "/dist/",
-        filename: 'client.js'
+        publicPath: "/dist/"
     },
 
     module: {
@@ -57,10 +55,6 @@ module.exports = {
         alias: {
             "vue$": "vue/dist/vue.common.js"
         }
-    },
-
-    devServer: {
-        port: 8080
     },
 
     plugins: [

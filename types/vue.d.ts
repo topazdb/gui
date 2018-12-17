@@ -1,3 +1,9 @@
+
 declare module "*.vue" {
-    export { default as Vue } from "vue";
+    import Vue from "vue";
+    export default Vue;
+}
+
+declare interface Window {
+    __INITIAL_STATE__: any
 }
