@@ -1,15 +1,38 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const serverBundle = require("./dist/vue-ssr-server-bundle.json");
-const clientManifest = require("./dist/vue-ssr-client-manifest.json");
+const cp = require("child_process");
+const VueSSR = require("vue-server-renderer");
 
 const server = express();
-const renderer = require("vue-server-renderer").createBundleRenderer(serverBundle, {
-    runInNewContext: false,
-    template: fs.readFileSync("./index.html", "utf-8"),
-    clientManifest
-});
+var serverBundle, clientManifest, renderer;
+
+function reload() {
+    let result = cp.execSync("npm run build", { encoding: 'utf-8' });
+    if(!result.match(/Build Complete/g)) return;
+
+    delete require.cache[require.resolve("./dist/vue-ssr-server-bundle.json")];
+    delete require.cache[require.resolve("./dist/vue-ssr-client-manifest.json")];
+    
+    serverBundle = require("./dist/vue-ssr-server-bundle.json");
+    clientManifest = require("./dist/vue-ssr-client-manifest.json");
+    renderer = VueSSR.createBundleRenderer(serverBundle, {
+        runInNewContext: false,
+        template: fs.readFileSync("./index.html", "utf-8"),
+        clientManifest
+    });
+}
+
+if(process.argv.includes("--watch")) {
+    const watch = require("watch");
+    watch.createMonitor(__dirname + "/src", monitor => {
+        monitor.on("changed", () => {
+            console.log("Source changed, reloading server");
+            reload();
+            console.log("Reload complete");
+        });
+    });
+}
 
 server.use("/dist", express.static(path.join(__dirname, "./dist")));
 
@@ -23,4 +46,5 @@ server.get("*", (req, res) => {
     });
 });
 
+reload();
 server.listen(8080);

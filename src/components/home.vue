@@ -35,7 +35,7 @@
                 color: black;
 
                 h3 {
-                    margin-bottom: 10px;
+                    margin: 10px 0;
                     text-transform: uppercase;
                 }
             }

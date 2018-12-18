@@ -1,7 +1,10 @@
 <template>
-    <div class="set">
-        <h1>{{ set.name }}</h1>
-    </div>
+    <main class="set">
+        <div class="set-head">
+            <h1>{{ set.name }}</h1>
+            <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div>
+        </div>
+    </main>
 </template>
 
 <style lang="scss">
