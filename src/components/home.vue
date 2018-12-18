@@ -3,7 +3,7 @@
         <h1>Sets</h1>
         <ul>
             <li v-for="set in sets" :key="set.id">
-                <router-link :to="{ name: 'set', params: { name: set.name } }">
+                <router-link :to="{ name: 'set', params: { name: set.formattedName } }">
                     <h3>{{ set.name }}</h3>
                     <p>Created on {{ set.creationDate | format }}</p>
                 </router-link>

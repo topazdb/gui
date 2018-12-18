@@ -37,7 +37,8 @@ export default new Store({
 
     mutations: {
         setSet(state, set) {
-            Vue.set(state.sets, set.name, set);
+            set.formattedName = set.name.toLowerCase().replace(" ", "-");
+            Vue.set(state.sets, set.formattedName, set);
         }
     }
 });

@@ -7,7 +7,7 @@ import { config } from "../package.json";
 import { sync } from "vuex-router-sync";
 
 Vue.filter("format", (date: string) => moment(date).format(config.dateFormat));
-Vue.filter("formatParam", (param: string) => param.replace(" ", "-"));
+Vue.filter("formatParam", (param: string) => String(param).replace(" ", "-"));
 
 export default () => {
     sync(store, router);
