@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { Home } from "./components";
+import { Home, Set } from "./components";
 
 
 Vue.use(Router);
@@ -8,6 +8,7 @@ Vue.use(Router);
 export default new Router({
     mode: "history",
     routes: [
-        { path: '/', component: Home }
+        { name: "home", path: '/', component: Home },
+        { name: "set", path: '/sets/:name', component: Set }
     ]
 }); 

@@ -3,8 +3,10 @@
         <h1>Sets</h1>
         <ul>
             <li v-for="set in sets" :key="set.id">
-                <h3>{{ set.name }}</h3>
-                <p>Created on {{ set.creationDate | format }}</p>
+                <router-link :to="{ name: 'set', params: { name: set.name } }">
+                    <h3>{{ set.name }}</h3>
+                    <p>Created on {{ set.creationDate | format }}</p>
+                </router-link>
             </li>
         </ul>
     </main>
@@ -14,7 +16,6 @@
     ul {
         display: flex;
         list-style-type: none;
-        padding: 50px;
 
         li {
             flex-basis: 20%;
@@ -25,9 +26,18 @@
             border-radius: 5px;
             background: #EEE;
 
-            h3 {
-                margin-bottom: 10px;
-                text-transform: uppercase;
+            a {
+                text-decoration: none;
+                cursor: pointer;
+                display: block;
+                height: 100%;
+                width: 100%;
+                color: black;
+
+                h3 {
+                    margin-bottom: 10px;
+                    text-transform: uppercase;
+                }
             }
         }
     }
@@ -44,7 +54,6 @@
         }
 
         get sets() {
-            //@ts-ignore
             return this.$store.state.sets;
         }
     }

@@ -26,12 +26,18 @@ export default new Store({
                     commit("setSet", set);
                 }
             })
+        },
+
+        getSet({ commit }, name) {
+            return axios.get(`http://localhost/api/sets/${name}`)
+            
+            .then(response => commit("setSet", response.data));
         }
     },
 
     mutations: {
         setSet(state, set) {
-            Vue.set(state.sets, set.id, set);
+            Vue.set(state.sets, set.name, set);
         }
     }
 });

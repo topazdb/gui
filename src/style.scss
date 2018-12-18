@@ -7,10 +7,18 @@ $primaryColor: #FA8C2D;
     font-family: Montserrat;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
+}
+
 header {
     background: $primaryColor;
     color: white;
     height: 50px;
     line-height: 50px;
     padding: 0 15px;
+}
+
+main {
+    padding: 15px;
 }
