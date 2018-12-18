@@ -2,7 +2,11 @@ import Vue, { VNode } from "vue";
 import app from "./app.vue";
 import store from "./store";
 import router from "./router";
+import moment from "moment";
+import { config } from "../package.json";
 import { sync } from "vuex-router-sync";
+
+Vue.filter("format", (date: string) => moment(date).format(config.dateFormat));
 
 export default () => {
     sync(store, router);

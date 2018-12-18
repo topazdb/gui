@@ -1,10 +1,13 @@
 <template>
-    <ul>
-        <li v-for="set in sets" :key="set.id">
-            <h3>{{ set.name }}</h3>
-            <p>Created on {{ set.creationDate }}</p>
-        </li>
-    </ul>
+    <main>
+        <h1>Sets</h1>
+        <ul>
+            <li v-for="set in sets" :key="set.id">
+                <h3>{{ set.name }}</h3>
+                <p>Created on {{ set.creationDate | format }}</p>
+            </li>
+        </ul>
+    </main>
 </template>
 
 <style lang="scss" scoped>
