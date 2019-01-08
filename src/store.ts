@@ -20,7 +20,7 @@ export default new Store({
 
     actions: {
         getSets({ commit }, count, start = 0) {
-            return axios.get("http://localhost/api/sets")
+            return axios.get("http://api/sets")
             
             .then(response => {
                 for(let set of response.data) {
@@ -30,7 +30,7 @@ export default new Store({
         },
 
         getSet({ commit }, name) {
-            return axios.get(`http://localhost/api/sets/${name}`)
+            return axios.get(`http://api/sets/${name}`)
             
             .then(response => commit("setSet", response.data));
         }
