@@ -1,11 +1,12 @@
 <template>
     <main>
         <h1>Sets</h1>
-        <ul>
+        <ul class="grid">
             <li v-for="set in sets" :key="set.id">
                 <router-link :to="{ name: 'set', params: { name: set.formattedName } }">
                     <h3>{{ set.name }}</h3>
-                    <p>Created on {{ set.creationDate | format }}</p>
+                    <div class="last-updated">Last updated: <time>{{ set.lastScanDate | format }}</time></div>
+                    <div class="counts"><span>{{ set.barrelCount }}</span> Barrels, <span>{{ set.bulletCount }}</span> Bullets</div>
                 </router-link>
             </li>
         </ul>
@@ -13,32 +14,16 @@
 </template>
 
 <style lang="scss" scoped>
-    ul {
-        display: flex;
-        list-style-type: none;
+    .last-updated {
+        font-size: 0.8em;
+        margin: 5px 0;
+    }
 
-        li {
-            flex-basis: 20%;
-            flex-grow: 1;
-            margin: 10px;
-            height: 100px;
-            padding: 15px;
-            border-radius: 5px;
-            background: #EEE;
-
-            a {
-                text-decoration: none;
-                cursor: pointer;
-                display: block;
-                height: 100%;
-                width: 100%;
-                color: black;
-
-                h3 {
-                    margin: 10px 0;
-                    text-transform: uppercase;
-                }
-            }
+    .counts {
+        font-size: 0.9em;
+        
+        span {
+            font-weight: bold;
         }
     }
 </style>

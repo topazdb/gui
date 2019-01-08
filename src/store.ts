@@ -14,7 +14,8 @@ declare global {
 
 export default new Store({
     state: {
-        sets: {}
+        sets: {},
+        scans: {}
     },
 
     actions: {

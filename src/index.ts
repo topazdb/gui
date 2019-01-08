@@ -6,7 +6,11 @@ import moment from "moment";
 import { config } from "../package.json";
 import { sync } from "vuex-router-sync";
 
-Vue.filter("format", (date: string) => moment(date).format(config.dateFormat));
+Vue.filter("format", (date: string, never?: string) => {
+    if(date === null) return never || "never";
+    else return moment(date).format(config.dateFormat)
+});
+
 Vue.filter("formatParam", (param: string) => String(param).replace(" ", "-"));
 
 export default () => {
