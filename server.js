@@ -47,4 +47,4 @@ server.get("*", (req, res) => {
 });
 
 reload();
-server.listen(8080);
+server.listen(80);
