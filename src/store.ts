@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { Route } from "vue-router";
 import Vuex, { Store } from "vuex";
+import { encode } from "./util";
 import axios from "axios";
 
 Vue.use(Vuex);
@@ -38,7 +39,7 @@ export default new Store({
 
     mutations: {
         setSet(state, set) {
-            set.formattedName = set.name.toLowerCase().replace(" ", "-");
+            set.formattedName = encode(set.name);
             Vue.set(state.sets, set.formattedName, set);
         }
     }

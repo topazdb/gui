@@ -11,8 +11,6 @@ Vue.filter("format", (date: string, never?: string) => {
     else return moment(date).format(config.dateFormat)
 });
 
-Vue.filter("formatParam", (param: string) => String(param).replace(" ", "-"));
-
 export default () => {
     sync(store, router);
 
