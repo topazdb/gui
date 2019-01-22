@@ -7,8 +7,17 @@ const VueSSR = require("vue-server-renderer");
 const server = express();
 var serverBundle, clientManifest, renderer;
 
-function reload() {
-    let result = cp.execSync("npm run build", { encoding: 'utf-8' });
+function exec(command) {
+    return new Promise((resolve, reject) => {
+        cp.exec(command, { encoding: 'utf-8' }, (error, stdout, stderr) => {
+            if(error) reject(stderr);
+            else resolve(stdout);
+        })
+    });
+}
+
+async function reload() {
+    let result = await exec("npm run build");
     if(!result.match(/Build Complete/g)) return;
 
     delete require.cache[require.resolve("./dist/vue-ssr-server-bundle.json")];
@@ -26,9 +35,9 @@ function reload() {
 if(process.argv.includes("--watch")) {
     const watch = require("watch");
     watch.createMonitor(__dirname + "/src", monitor => {
-        monitor.on("changed", () => {
+        monitor.on("changed", async () => {
             console.log("Source changed, reloading server");
-            reload();
+            await reload();
             console.log("Reload complete");
         });
     });
