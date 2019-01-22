@@ -42,7 +42,10 @@ router.onReady(() => {
             //@ts-ignore
             if(c.asyncData) return c.asyncData({ store, route: to });
 
-        })).then(() => next()).catch(next);
+        }))
+        
+        .then(() => next())
+        .catch(() => new Error("404 Not Found"));
     });
 
     app.$mount("#app");

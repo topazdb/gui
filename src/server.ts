@@ -22,7 +22,7 @@ export default (context: any) => {
                 context.state = store.state;
                 resolve(app);
 
-            }).catch(reject);
+            }).catch(() => reject({ code: 404 }));
 
         }, reject);
     });
