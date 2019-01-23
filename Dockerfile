@@ -1,4 +1,4 @@
-FROM node as development
+FROM node:11-stretch as development
 WORKDIR /var/topazdb-gui/
 COPY . .
 RUN npm i

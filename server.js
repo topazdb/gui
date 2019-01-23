@@ -55,5 +55,8 @@ server.get("*", (req, res) => {
     });
 });
 
-reload();
-server.listen(80);
+
+(async function() {
+    await reload();
+    server.listen(80);
+})();
