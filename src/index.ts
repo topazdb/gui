@@ -18,9 +18,9 @@ export default () => {
         router,
         store,
         app: new Vue({
-            router,
+            router, 
             store,
             render: h => h(app)
         })
     }
-};
+};  

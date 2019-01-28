@@ -1,7 +1,11 @@
 FROM node:11-stretch as development
-WORKDIR /var/topazdb-gui/
+WORKDIR /app 
+VOLUME "/app"
+EXPOSE 80
+
+FROM development as production
+WORKDIR /app
 COPY . .
-ENV NODE_ENV="development"
-ENV PATH="/node_modules/.bin:${PATH}"
-RUN npm i && mv node_modules /node_modules
+RUN npm run clean
+RUN npm i && npm run build
 EXPOSE 80

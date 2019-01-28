@@ -4,32 +4,46 @@ const path = require("path");
 const cp = require("child_process");
 const VueSSR = require("vue-server-renderer");
 
+const LOG_NAME = "error.log";
 const server = express();
 var serverBundle, clientManifest, renderer;
+
+function createLogHeader() {
+    return new Date().toDateString() + " ========\n";
+}
 
 function exec(command) {
     return new Promise((resolve, reject) => {
         cp.exec(command, { encoding: 'utf-8' }, (error, stdout, stderr) => {
-            if(error) reject(stderr);
-            else resolve(stdout);
+            if(error) reject(stdout); // when webpack is run inside npm scripts, stderr from webpack will be piped to stdout
+            else resolve(stdout); 
         })
     });
 }
 
 async function reload() {
-    let result = await exec("npm run build");
-    if(!result.match(/Build Complete/g)) return;
+    try {
+        let result = await exec("npm run --silent build");
+        if(!result.match(/Build Complete/g)) return;
 
-    delete require.cache[require.resolve("./dist/vue-ssr-server-bundle.json")];
-    delete require.cache[require.resolve("./dist/vue-ssr-client-manifest.json")];
-    
-    serverBundle = require("./dist/vue-ssr-server-bundle.json");
-    clientManifest = require("./dist/vue-ssr-client-manifest.json");
-    renderer = VueSSR.createBundleRenderer(serverBundle, {
-        runInNewContext: false,
-        template: fs.readFileSync("./index.html", "utf-8"),
-        clientManifest
-    });
+        delete require.cache[require.resolve("./dist/vue-ssr-server-bundle.json")];
+        delete require.cache[require.resolve("./dist/vue-ssr-client-manifest.json")];
+        
+        serverBundle = require("./dist/vue-ssr-server-bundle.json");
+        clientManifest = require("./dist/vue-ssr-client-manifest.json");
+        renderer = VueSSR.createBundleRenderer(serverBundle, {
+            runInNewContext: false,
+            template: fs.readFileSync("./index.html", "utf-8"),
+            clientManifest
+        });
+
+        return true;
+    } catch(err) {
+        console.error("An error occurred reloading the server.  The output has been written to gui/error.log");
+        fs.appendFileSync(LOG_NAME, createLogHeader() + err + "\n\n");
+
+        return false;
+    }
 }
 
 if(process.argv.includes("--watch")) {
@@ -37,14 +51,16 @@ if(process.argv.includes("--watch")) {
     watch.createMonitor(__dirname + "/src", monitor => {
         monitor.on("changed", async () => {
             console.log("Source changed, reloading server");
-            await reload();
-            console.log("Reload complete");
+            let success = await reload();
+
+            if(success) {
+                console.log("Reload complete");
+            }
         });
     });
 }
 
 server.use("/dist", express.static(path.join(__dirname, "./dist")));
-
 server.get("*", (req, res) => {
     const context = { url: req.url, meta: "", title: "TopazDB" };
     

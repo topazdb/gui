@@ -64,6 +64,6 @@
   },
 
   "include": [
-      "src/**/*", "types/**/*", "webpack.base.config.js"
+      "src/**/*", "types/**/*"
   ]
 }
