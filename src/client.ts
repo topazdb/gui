@@ -26,6 +26,23 @@ Vue.mixin({
     }
 });
 
+Vue.mixin({
+    beforeRouteUpdate(to, from, next) {
+        //@ts-ignore
+        const { asyncData } = this.$options;
+
+        if(asyncData) {
+            asyncData({
+                // @ts-ignore
+                store: this.$store,
+                route: to
+            }).then(next).catch(next);
+        } else {
+            next();
+        }
+    }
+})
+
 router.onReady(() => {
     router.beforeResolve((to, from, next) => {
         const matched = router.getMatchedComponents(to);

@@ -26,6 +26,8 @@ export default new Store({
             })
             
             .then(response => {
+                commit("clearSets");
+                
                 for(let set of response.data) {
                     commit("setSet", set);
                 }
@@ -42,6 +44,10 @@ export default new Store({
     },
 
     mutations: {
+        clearSets(state) {
+            state.sets = {};
+        },
+
         setSet(state, set) {
             set.formattedName = encode(set.name);
             Vue.set(state.sets, set.formattedName, set);
