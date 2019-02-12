@@ -32,6 +32,7 @@ main {
 .grid {
     display: flex;
     list-style-type: none;
+    flex-wrap: wrap;
 
     &:not(.no-grow) li { flex-grow: 1; }
 
