@@ -16,6 +16,9 @@
                     <option value="100">100</option>
                     <option value="101">All</option>
             </select>
+            <div class="searchbar">
+                <input type="text" placeholder="Search by name" v-model="searchBy"/>
+            </div>
         </div>
         
         <ul class="grid">  
@@ -78,6 +81,16 @@
     .btn-paging:hover {
         background: #d0d0d0;
     }
+    .searchbar {
+        display: inline;
+    }
+    .searchbar input{
+        border-style: solid;
+        border-width: thin;
+        border-color: rgb(169, 169, 169);
+        border-radius: 5px;
+        padding: 5px;
+    }
 </style>
 
 <script lang="ts">
@@ -94,6 +107,7 @@
         setsList = this.$store.state.sets;
         pageNumber=0;
         itemsPerPage=101;
+        searchBy = '';
 
         asyncData({ store, route }: DataParameters) {
             return store.dispatch("getSets");
@@ -102,8 +116,10 @@
         get sets() {
             if(this.itemsPerPage < 100){
                 return this.limitPages;
+            }if(this.searchBy.length > 0){
+                return this.searchBy;
             }
-            return this.setsList;
+            else {return this.setsList;}
         }
         get pageCount(){
             let size = Object.keys(this.setsList).length;
@@ -114,10 +130,19 @@
             let end = start + this.itemsPerPage;
             let newList = Object.keys(this.setsList).slice(start, end).reduce((result, key) => {
                     result[key] = this.setsList[key];
-
                     return result;
                 }, {});
             return newList;
+        }
+        get search(){
+            var result = {};
+            var list = this.defaultSets;
+            for (var key in list) {
+                if (list.hasOwnProperty(key) && list[key].name.toLowerCase().includes(this.searchBy.toLowerCase())) {
+                    result[key] = this.defaultSets[key];
+                }
+            }
+            return result;
         }
 
         nextPage(){
@@ -146,5 +171,5 @@
             this.itemsPerPage = parseInt(option.target.value);
         }
         
-    }
+    };
 </script>  
