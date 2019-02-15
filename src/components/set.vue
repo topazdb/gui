@@ -7,19 +7,39 @@
                 <div class="set-lastScanDate">Last updated: <time>{{ set.lastScanDate | format }}</time></div>
             </div>
         </div>
-        <ul class="set-barrels grid no-grow">
-            <li v-for="barrel in set.barrelCount" :key="barrel">
-                <router-link :to="{ name: 'barrels', params: { number: barrel } }">
-                    <div class="barrel-number">{{ barrel }}</div>
-                </router-link>
-            </li>
-        </ul>
+
+        <div class="set-details">
+            <h2 class="header">Barrels</h2>
+            <ul class="set-barrels grid no-grow">
+                <li v-for="barrel in set.barrelCount" :key="barrel">
+                    <router-link :to="{ name: 'barrels', params: { number: barrel } }">
+                        <div class="barrel-number">{{ barrel }}</div>
+                    </router-link>
+                </li>
+            </ul>
+        </div>
+        <div class="set-details">
+            <h2 class="header"> Bullets</h2>
+            <ul class="set-barrels grid no-grow">
+                <li v-for="bullet in set.bulletCount" :key="bullet">
+                    <router-link :to="{ name: 'bullets', params: { number: bullet } }">
+                        <div class="barrel-number">{{ bullet }}</div>
+                    </router-link>
+                </li>
+            </ul>
+        </div>
     </main>
 </template>
 
 <style lang="scss">
     @import "../vars.scss";
-
+    .header {
+        margin-left: 25px;
+        margin-right: 25px;
+        margin-top: 25px;
+        border-bottom: 5px solid #ccc;
+        padding: 10px;
+    }
     .set {
         padding: 15px;
 
