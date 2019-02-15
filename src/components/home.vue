@@ -17,7 +17,7 @@
                     <option value="101">All</option>
             </select>
             <div class="searchbar">
-                <input type="text" placeholder="Search by name" v-model="searchBy"/>
+                <input type="text" placeholder="Search By Name" v-model="searchBy"/>
             </div>
         </div>
         
