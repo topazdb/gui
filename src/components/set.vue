@@ -12,7 +12,7 @@
             <h2 class="header">Barrels</h2>
             <ul class="set-barrels grid no-grow">
                 <li v-for="barrel in set.barrelCount" :key="barrel">
-                    <router-link :to="{ name: 'barrels', params: { number: barrel } }">
+                    <router-link :to="{ name: '', params: { number: barrel } }">
                         <div class="barrel-number">{{ barrel }}</div>
                     </router-link>
                 </li>
@@ -22,7 +22,7 @@
             <h2 class="header"> Bullets</h2>
             <ul class="set-barrels grid no-grow">
                 <li v-for="bullet in set.bulletCount" :key="bullet">
-                    <router-link :to="{ name: 'bullets', params: { number: bullet } }">
+                    <router-link :to="{ name: 'scans', params: { number: bullet } }">
                         <div class="barrel-number">{{ bullet }}</div>
                     </router-link>
                 </li>
@@ -37,8 +37,8 @@
         margin-left: 25px;
         margin-right: 25px;
         margin-top: 25px;
-        border-bottom: 5px solid #ccc;
-        padding: 10px;
+        border-bottom: 3px solid #ccc;
+        padding: 0 0 10px;
     }
     .set {
         padding: 15px;
