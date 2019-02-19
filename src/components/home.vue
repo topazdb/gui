@@ -114,10 +114,11 @@
         }
 
         get sets() {
+            console.log(this.setsList);
             if(this.itemsPerPage < 100){
                 return this.limitPages;
             }if(this.searchBy.length > 0){
-                return this.searchBy;
+                return this.search;
             }
             else {return this.setsList;}
         }
