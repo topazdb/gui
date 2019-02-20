@@ -9,9 +9,16 @@
         </div>
         <ul class="set-barrels scan-barrels grid no-grow">
                 <li v-for="scan in scans" :key="scan.id">
-                    <div></div>
                     <router-link :to="{ name: '' }">
-                        <div class="barrel-number">{{ scan }}</div>
+                        <h3>Scan {{ scan.id }}</h3>
+                        <div class="counts">
+                            <span>Bullet: {{ scan.bulletNo }}</span> 
+                            <span>Barrel: {{ scan.barrelNo }}</span> 
+                            <span>Threshold: {{ scan.threshold }}</span> 
+                            <span>Resolution: {{ scan.resolution }}</span> 
+                            <span>Magnification: {{ scan.magnification }}</span> 
+                        </div>
+                        <!-- <div class="barrel-number">{{ scan }}</div> -->
                     </router-link>
                 </li>
         </ul>
@@ -57,31 +64,13 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
-
     @Component
     export default class Scan extends Vue {
-        
-        async asyncData({ store, route }: DataParameters) {
-            let data = store.dispatch("getScansFromSet",[store.state.sets[route.params.name].id, parseInt(route.params.number)]);
-            return data;
+
+        asyncData({ store, route }: DataParameters) {
+            return store.dispatch("getScansFromSet",[store.state.sets[route.params.name].id, parseInt(route.params.number)]);
         }
-        scanList=this.$store.state.scans;
         get scans() {
-            var tempList;
-            // for(var key in this.$store.state.scans){
-            //     if (this.$store.state.scans.hasOwnProperty(key) ) {
-            //         tempList = this.$store.state.scans[key];
-            //         for(var key2 in tempList){
-            //             if(tempList.hasOwnProperty(key2)){
-            //                 var bulletNo = parseInt(this.$route.params.number);
-            //                 if(tempList[key2].setId === this.set.id && tempList[key2].bulletNo === bulletNo){
-            //                     this.scanList[key2] = tempList[key2];
-            //                 }   
-            //             }
-            //         }
-            //     }
-            // }
-            console.log(this.$store.state.scans);
             return this.$store.state.scans;
         }
 
@@ -95,3 +84,16 @@
     }
 </script>
 
+// for(var key in this.$store.state.scans){
+            //     if (this.$store.state.scans.hasOwnProperty(key) ) {
+            //         tempList = this.$store.state.scans[key];
+            //         for(var key2 in tempList){
+            //             if(tempList.hasOwnProperty(key2)){
+            //                 var bulletNo = parseInt(this.$route.params.number);
+            //                 if(tempList[key2].setId === this.set.id && tempList[key2].bulletNo === bulletNo){
+            //                     this.scanList[key2] = tempList[key2];
+            //                 }   
+            //             }
+            //         }
+            //     }
+            // }

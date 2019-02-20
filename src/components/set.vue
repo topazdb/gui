@@ -79,7 +79,9 @@
     @Component
     export default class Set extends Vue {
         asyncData({ store, route }: DataParameters) {
-            return store.dispatch("getSet", route.params.name);
+            return store.dispatch("getSet", route.params.name).then(
+                ()=>store.dispatch("getScans")
+            );
         }
 
         get set() {
