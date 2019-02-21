@@ -1,7 +1,7 @@
 <template>
     <main class="scan">
         <div class="set-head">
-            <h1>{{ set.name }}</h1>
+            <h1>{{ set.name }} - BULLET {{ bullet }}</h1>
             <div class="row">
                 <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div> / 
                 <div class="set-lastScanDate">Last updated: <time>{{ set.lastScanDate | format }}</time></div>
@@ -12,13 +12,13 @@
                     <router-link :to="{ name: '' }">
                         <h3>Scan {{ scan.id }}</h3>
                         <div class="counts">
-                            <span>Bullet: {{ scan.bulletNo }}</span> 
-                            <span>Barrel: {{ scan.barrelNo }}</span> 
-                            <span>Threshold: {{ scan.threshold }}</span> 
-                            <span>Resolution: {{ scan.resolution }}</span> 
-                            <span>Magnification: {{ scan.magnification }}</span> 
+                            Barrel: <span> {{ scan.barrelNo }}</span> 
                         </div>
-                        <!-- <div class="barrel-number">{{ scan }}</div> -->
+                         <div class="counts">
+                            Threshold: <span> {{ scan.threshold }}</span><br>
+                            Resolution: <span> {{ scan.resolution }}</span><br>
+                            Magnification: <span>{{ scan.magnification }}</span><br>
+                        </div>
                     </router-link>
                 </li>
         </ul>
@@ -27,7 +27,23 @@
 
 <style lang="scss">
     @import "../vars.scss";
-        .scan {
+
+    h3 {
+        text-decoration: underline;
+    }
+    
+    .counts {
+        font-size: 1.2em;
+        font-weight: normal;
+        text-align: left;
+            
+        span {
+            font-weight: bold;
+            line-height: 20px;
+        }
+    }
+
+    .scan {
         padding: 15px;
 
         .set-head {
@@ -48,13 +64,15 @@
     }    
 
     .scan-barrels {
-        margin: 15px;
-
+        margin: 0 auto;
+        display: table;
         li {
             font-size: 10px;
             text-align: center;
             font-weight: bold;
             line-height: 10px;
+            display: inline-block;
+            width: 200px;
         }
     }
 
@@ -64,14 +82,22 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
+    declare var require: any
+    var _ = require('lodash');
+
     @Component
     export default class Scan extends Vue {
-
         asyncData({ store, route }: DataParameters) {
-            return store.dispatch("getScansFromSet",[store.state.sets[route.params.name].id, parseInt(route.params.number)]);
+            return store.dispatch("getScans")
         }
+
         get scans() {
-            return this.$store.state.scans;
+            var tempscans = this.$store.state.scans;
+            var bNum = this.bullet;
+            var scanList = _.filter(tempscans, function(s) { 
+                return s.bulletNo == bNum; 
+            });
+            return scanList;
         }
 
         get set() {
@@ -81,19 +107,10 @@
         get sets() {
             return this.$store.state.sets;
         }
+
+        get bullet(){
+            return this.$route.params.number;
+        }
+
     }
 </script>
-
-// for(var key in this.$store.state.scans){
-            //     if (this.$store.state.scans.hasOwnProperty(key) ) {
-            //         tempList = this.$store.state.scans[key];
-            //         for(var key2 in tempList){
-            //             if(tempList.hasOwnProperty(key2)){
-            //                 var bulletNo = parseInt(this.$route.params.number);
-            //                 if(tempList[key2].setId === this.set.id && tempList[key2].bulletNo === bulletNo){
-            //                     this.scanList[key2] = tempList[key2];
-            //                 }   
-            //             }
-            //         }
-            //     }
-            // }
