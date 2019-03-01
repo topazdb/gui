@@ -35,7 +35,7 @@ export default new Store({
         },
 
         getSet({ commit }, name) {
-            return axios.get(`http://api/sets/${name}`, { 
+            return axios.get(`http://api/sets/${name.replace(/%2D/, "%252D")}`, { 
                 validateStatus: code => code === 200 
             })
             
