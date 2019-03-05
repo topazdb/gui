@@ -9,6 +9,6 @@ export default new Router({
     mode: "history",
     routes: [
         { name: "home", path: '/', component: Home },
-        { name: "set", path: '/sets/:name', component: Set }
+        { name: "set", path: '/sets/:id', component: Set }
     ]
 }); 

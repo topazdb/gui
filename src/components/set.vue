@@ -9,22 +9,16 @@
         </div>
 
         <div class="set-details">
-            <h2 class="header">Barrels</h2>
-            <ul class="set-barrels grid no-grow">
-                <li v-for="barrel in set.barrelCount" :key="barrel">
-                    <router-link :to="{ name: '', params: { number: barrel } }">
-                        <div class="barrel-number">{{ barrel }}</div>
-                    </router-link>
-                </li>
-            </ul>
-        </div>
-        <div class="set-details">
-            <h2 class="header"> Bullets</h2>
-            <ul class="set-barrels grid no-grow">
-                <li v-for="bullet in set.bulletCount" :key="bullet">
-                    <router-link :to="{ name: 'scans', params: { number: bullet } }">
-                        <div class="barrel-number">{{ bullet }}</div>
-                    </router-link>
+            <ul class="barrels">
+                <li v-for="(bullets, barrel) in set.barrels" :key="barrel">
+                    <h3>{{ parseInt(barrel) === 0 ? "Unknowns" : `Barrel ${barrel}` }}</h3>
+                    <ul class="bullets grid no-grow">
+                        <li v-for="bullet in bullets" :key="bullet">
+                            <router-link :to="{ name: '', params: { number: bullet } }">
+                                <div class="barrel-number">{{ bullet }}</div>
+                            </router-link>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -60,14 +54,26 @@
         }
     }    
 
-    .set-barrels {
+    .barrels {
+        li {
+
+            h3 {
+                text-decoration: none;
+            }
+
+            list-style-type: none;
+        }
+    }
+
+    .bullets {
         margin: 15px;
 
         li {
-            font-size: 50px;
+            font-size: 30px;
             text-align: center;
             font-weight: bold;
             line-height: 90px;
+            flex-basis: 10%;
         }
     }
 </style>
@@ -79,13 +85,13 @@
     @Component
     export default class Set extends Vue {
         asyncData({ store, route }: DataParameters) {
-            return store.dispatch("getSet", route.params.name).then(
-                ()=>store.dispatch("getScans")
-            );
-        }
+            return store.dispatch("getSet", route.params.id)
+            
+            .then(() => store.dispatch("getBarrels", route.params.id));
+        } 
 
         get set() {
-            return this.$store.state.sets[this.$route.params.name];
+            return this.$store.state.sets[this.$route.params.id];
         }
     }
 </script>

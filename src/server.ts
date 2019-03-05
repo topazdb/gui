@@ -6,14 +6,14 @@ export default (context: any) => {
         router.push(context.url);
 
         router.onReady(() => {
-            const matched = router.getMatchedComponents();
+            const matched = router.getMatchedComponents() as any;
             if(!matched.length) return reject({ code: 404 });
 
             Promise.all(matched.map(component => {
-                //@ts-ignore
-                if(component.options.methods.asyncData) {
-                    //@ts-ignore
-                    return component.options.methods.asyncData({
+                const methods = component.options.methods;
+
+                if(methods.asyncData) {
+                    return methods.asyncData({
                         store,
                         route: router.currentRoute
                     });

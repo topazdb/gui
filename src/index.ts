@@ -1,4 +1,4 @@
-import Vue, { VNode } from "vue";
+import Vue, { VNode, ComponentOptions } from "vue";
 import app from "./app.vue";
 import store from "./store";
 import router from "./router";
@@ -20,7 +20,7 @@ export default () => {
         app: new Vue({
             router, 
             store,
-            render: h => h(app)
-        })
+            render: h => h(app) 
+        } as unknown as ComponentOptions<Vue>)
     }
 };  

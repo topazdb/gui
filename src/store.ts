@@ -4,6 +4,9 @@ import Vuex, { Store } from "vuex";
 import { encode } from "./util";
 import axios from "axios";
 
+
+const URL = typeof location === "undefined" ? "http://api" : "/api";
+
 Vue.use(Vuex);
 
 declare global {
@@ -21,7 +24,7 @@ export default new Store({
 
     actions: {
         getSets({ commit }, count, start = 0) {
-            return axios.get("http://api/sets", {
+            return axios.get(`${URL}/sets`, {
                 validateStatus: code => code === 200
             })
             
@@ -34,12 +37,20 @@ export default new Store({
             })
         },
 
-        getSet({ commit }, name) {
-            return axios.get(`http://api/sets/${name.replace(/%2D/, "%252D")}`, { 
+        getSet({ commit }, id) {
+            return axios.get(`${URL}/sets/${id}`, { 
                 validateStatus: code => code === 200 
             })
             
             .then(response => commit("setSet", response.data));
+        },
+
+        getBarrels({ commit }, id) {
+            return axios.get(`${URL}/sets/${id}/barrels`, {
+                validateStatus: code => code === 200
+            })
+
+            .then(response => commit("setBarrels", { id, barrels: response.data }));
         }
     },
 
@@ -49,8 +60,13 @@ export default new Store({
         },
 
         setSet(state, set) {
-            set.formattedName = encode(set.name);
-            Vue.set(state.sets, set.formattedName, set);
+            Vue.set(state.sets, set.id, set);
+        },
+
+        setBarrels(state, { id, barrels }) {
+            let set = state.sets[id];
+            set.barrels = barrels;
+            Vue.set(state.sets, set.id, set);
         }
     }
 });
