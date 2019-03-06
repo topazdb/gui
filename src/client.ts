@@ -13,7 +13,7 @@ router.beforeResolve((to, from, next) => {
     Promise.all(matched.map(c => {
         const methods = c.options.methods;
         
-        if(methods.asyncData) {
+        if(typeof methods !== "undefined" && typeof methods.asyncData !== "undefined") {
             return methods.asyncData({ store, route: to });
         }
     }))

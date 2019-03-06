@@ -1,7 +1,6 @@
 import Vue from "vue";
 import { Route } from "vue-router";
 import Vuex, { Store } from "vuex";
-import { encode } from "./util";
 import axios from "axios";
 
 
@@ -19,6 +18,7 @@ declare global {
 export default new Store({
     state: {
         sets: {},
+        rundown: {},
         scans: {}
     },
 
@@ -45,12 +45,26 @@ export default new Store({
             .then(response => commit("setSet", response.data));
         },
 
-        getBarrels({ commit }, id) {
-            return axios.get(`${URL}/sets/${id}/barrels`, {
+        /**
+         * Rundown of a scan (barrel => bullet mappings)
+         */
+        getRundown({ commit }, id) {
+            return axios.get(`${URL}/sets/${id}/rundown`, {
                 validateStatus: code => code === 200
             })
 
-            .then(response => commit("setBarrels", { id, barrels: response.data }));
+            .then(response => commit("setRundown", { id, rundown: response.data }));
+        },
+
+        /**
+         * Scans for a bullet
+         */
+        getScans({ commit }, { setId, barrelNo, bulletNo }) {
+            return axios.get(`${URL}/sets/${setId}/${barrelNo}/${bulletNo}`, {
+                validateStatus: code => code === 200
+            })
+
+            .then(response => commit("setScans", { id: setId, scans: response.data }))
         }
     },
 
@@ -63,10 +77,12 @@ export default new Store({
             Vue.set(state.sets, set.id, set);
         },
 
-        setBarrels(state, { id, barrels }) {
-            let set = state.sets[id];
-            set.barrels = barrels;
-            Vue.set(state.sets, set.id, set);
+        setRundown(state, { id, rundown }) {
+            Vue.set(state.rundown, id, rundown);
+        },
+
+        setScans(state, { id, scans }) {
+            Vue.set(state.scans, id, scans)
         }
     }
 });

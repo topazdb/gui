@@ -8,25 +8,12 @@
             </div>
         </div>
 
-        <div class="set-details">
-            <ul class="barrels">
-                <li v-for="(bullets, barrel) in set.barrels" :key="barrel">
-                    <h3>{{ parseInt(barrel) === 0 ? "Unknowns" : `Barrel ${barrel}` }}</h3>
-                    <ul class="bullets grid no-grow">
-                        <li v-for="bullet in bullets" :key="bullet">
-                            <router-link :to="{ name: '', params: { number: bullet } }">
-                                <div class="barrel-number">{{ bullet }}</div>
-                            </router-link>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <router-view></router-view>
     </main>
 </template>
 
 <style lang="scss">
-    @import "../vars.scss";
+    @import "../../vars.scss";
     .header {
         margin-left: 25px;
         margin-right: 25px;
@@ -85,9 +72,7 @@
     @Component
     export default class Set extends Vue {
         asyncData({ store, route }: DataParameters) {
-            return store.dispatch("getSet", route.params.id)
-            
-            .then(() => store.dispatch("getBarrels", route.params.id));
+            return store.dispatch("getSet", route.params.id);
         } 
 
         get set() {

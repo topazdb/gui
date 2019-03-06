@@ -1,32 +1,25 @@
 <template>
-    <main class="scan">
-        <div class="set-head">
-            <h1>{{ set.name }} - BULLET {{ bullet }}</h1>
-            <div class="row">
-                <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div> / 
-                <div class="set-lastScanDate">Last updated: <time>{{ set.lastScanDate | format }}</time></div>
-            </div>
-        </div>
+    <main class="scans">
         <ul class="set-barrels scan-barrels grid no-grow">
-                <li v-for="scan in scans" :key="scan.id">
-                    <router-link :to="{ name: '' }">
-                        <h3>Scan {{ scan.id }}</h3>
+            <li v-for="scan in scans" :key="scan.id">
+                <router-link :to="{ name: '' }">
+                    <h3>Scan {{ scan.id }}</h3>
+                    <div class="counts">
+                        Barrel: <span> {{ scan.barrelNo }}</span> 
+                    </div>
                         <div class="counts">
-                            Barrel: <span> {{ scan.barrelNo }}</span> 
-                        </div>
-                         <div class="counts">
-                            Threshold: <span> {{ scan.threshold }}</span><br>
-                            Resolution: <span> {{ scan.resolution }}</span><br>
-                            Magnification: <span>{{ scan.magnification }}</span><br>
-                        </div>
-                    </router-link>
-                </li>
+                        Threshold: <span> {{ scan.threshold }}</span><br>
+                        Resolution: <span> {{ scan.resolution }}</span><br>
+                        Magnification: <span>{{ scan.magnification }}</span><br>
+                    </div>
+                </router-link>
+            </li>
         </ul>
     </main>
 </template>
 
 <style lang="scss">
-    @import "../vars.scss";
+    @import "../../vars.scss";
 
     h3 {
         text-decoration: underline;
@@ -43,7 +36,7 @@
         }
     }
 
-    .scan {
+    .scans {
         padding: 15px;
 
         .set-head {
@@ -86,13 +79,17 @@
     var _ = require('lodash');
 
     @Component
-    export default class Scan extends Vue {
+    export default class Scans extends Vue {
         asyncData({ store, route }: DataParameters) {
-            return store.dispatch("getScans")
+            return store.dispatch("getScans", {
+                setId: route.params.id,
+                barrelNo: route.params.barrel,
+                bulletNo: route.params.bullet
+            });
         }
 
         get scans() {
-            var tempscans = this.$store.state.scans;
+            var tempscans = this.$store.state.scans[this.$route.params.id];
             var bNum = this.bullet;
             var scanList = _.filter(tempscans, function(s) { 
                 return s.bulletNo == bNum; 
@@ -101,7 +98,7 @@
         }
 
         get set() {
-            return this.$store.state.sets[this.$route.params.name];
+            return this.$store.state.sets[this.$route.params.id];
         }
 
         get sets() {
@@ -109,7 +106,7 @@
         }
 
         get bullet(){
-            return this.$route.params.number;
+            return this.$route.params.bullet;
         }
 
     }
