@@ -44,6 +44,49 @@ export default new Store({
             
             .then(response => commit("setSet", response.data));
         },
+        addSet({ commit }, set) {
+            let json = JSON.stringify(set);
+            console.log("set");
+            console.log(set);
+            console.log(json);
+            return axios({
+                url: `http://localhost/api/sets/`,
+                method: 'post',
+                headers: { 'Content-Type': 'application/json'},
+                data: json,
+            })
+            .then(function (response) {
+                console.log(response);
+                commit("setSet", response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        editSet({ commit }, params) {
+            return axios({
+                url: `http://localhost/api/sets/${params[0]}`,
+                method: 'put',
+                data: {id: params[0], set: params[1]}
+            })
+            .then(function (response) {
+                console.log("response");
+                console.log(response);
+                commit("setSet", response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        /**
+         * Removing a set
+         */
+        removeSet({ commit }, id) {
+            return axios.delete(`http://localhost/api/sets/${id}`, { 
+                validateStatus: code => code === 200 
+            })
+            
+        },
 
         /**
          * Rundown of a scan (barrel => bullet mappings)
@@ -65,7 +108,8 @@ export default new Store({
             })
 
             .then(response => commit("setScans", { id: setId, scans: response.data }))
-        }
+        },
+
     },
 
     mutations: {

@@ -1,5 +1,5 @@
 <template>
-    <main class="scans">
+    <main class="Scans">
         <ul class="set-barrels scan-barrels grid no-grow">
             <li v-for="scan in scans" :key="scan.id">
                 <router-link :to="{ name: '' }">
@@ -89,6 +89,7 @@
         }
 
         get scans() {
+            console.log("in");
             var tempscans = this.$store.state.scans[this.$route.params.id];
             var bNum = this.bullet;
             var scanList = _.filter(tempscans, function(s) { 

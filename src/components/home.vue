@@ -19,6 +19,11 @@
             <div class="searchbar">
                 <input type="text" placeholder="Search By Name" v-model="searchBy"/>
             </div>
+            <div class="add-set-option">
+                <router-link :to="{ path: '/setForm/add' }">
+                   <button class="btn btn-add-set" >Add Set</button>
+                </router-link>
+            </div>
         </div>
         
         <ul class="grid">  
@@ -69,7 +74,7 @@
         float: right;
         display: inline;
     }
-    .btn-paging {
+    .btn-paging, .btn-add-set {
         background: whitesmoke;
         border-radius: 5px;
         width: 80px;
@@ -78,8 +83,18 @@
         border-style: solid;
         border-width:thin;
     }
-    .btn-paging:hover {
-        background: #d0d0d0;
+    .add-set-option {
+        display: inline;
+    }
+    .btn-add-set {
+        background: #FA8C2D;
+        color: white;
+        float: right;
+        width: 120px;
+        padding: 7px;
+    }
+    .btn-paging:hover, .btn-add-set:hover {
+        cursor: pointer;
     }
     .searchbar {
         display: inline;
@@ -114,7 +129,6 @@
         }
 
         get sets() {
-            console.log(this.setsList);
             if(this.itemsPerPage < 100){
                 return this.limitPages;
             }if(this.searchBy.length > 0){

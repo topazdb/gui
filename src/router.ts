@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { Home } from "./components";
+import { Home, SetForm, ScanForm } from "./components";
 import { Set, Rundown, Scans } from "./components/sets";
 
 
@@ -10,12 +10,20 @@ export default new Router({
     mode: "history",
     routes: [
         { name: "home", path: '/', component: Home },
+        {   
+            path: '/setForm/add', 
+            component: SetForm, 
+            children: [
+                { name: 'scanForm', path: '/setForm/add', component: ScanForm}
+            ]
+        },
         { 
             path: '/sets/:id', 
             component: Set,
             children: [
-                { path: '', component: Rundown },
-                { path: ':barrel/:bullet', component: Scans }
+                { path: '/', component: Rundown },
+                { name: 'scans', path: '/:barrel/:bullet', component: Scans },
+                { name: 'ScanForm', path: '/', component: ScanForm }
             ]
         }
     ]
