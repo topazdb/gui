@@ -89,7 +89,6 @@
         }
 
         get scans() {
-            console.log("in");
             var tempscans = this.$store.state.scans[this.$route.params.id];
             var bNum = this.bullet;
             var scanList = _.filter(tempscans, function(s) { 
