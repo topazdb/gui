@@ -46,9 +46,6 @@ export default new Store({
         },
         addSet({ commit }, set) {
             let json = JSON.stringify(set);
-            console.log("set");
-            console.log(set);
-            console.log(json);
             return axios({
                 url: `http://localhost/api/sets/`,
                 method: 'post',
@@ -63,15 +60,18 @@ export default new Store({
                 console.log(error);
             });
         },
-        editSet({ commit }, params) {
+        editSet({ commit }, param) {
+            let id = param[0];
+            let set = param[1];
             return axios({
-                url: `http://localhost/api/sets/${params[0]}`,
+                url: `http://localhost/api/sets/${id}`,
                 method: 'put',
-                data: {id: params[0], set: params[1]}
+                headers: { 'Content-Type': 'application/json'},
+                data: {id: id, set}
             })
             .then(function (response) {
-                console.log("response");
                 console.log(response);
+                console.log(response.data);
                 commit("setSet", response.data);
             })
             .catch(function (error) {
@@ -109,8 +109,23 @@ export default new Store({
 
             .then(response => commit("setScans", { id: setId, scans: response.data }))
         },
-
+        addScan({ commit }, scan) {
+            return axios({
+                url: `http://localhost/api/scans/`,
+                method: 'post',
+                headers: { 'Content-Type': 'application/json'},
+                data: scan
+            })
+            .then(function (response) {
+                console.log(response);
+                commit("setScans", response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
     },
+    
 
     mutations: {
         clearSets(state) {

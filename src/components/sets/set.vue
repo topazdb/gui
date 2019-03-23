@@ -131,11 +131,34 @@
         save(){
             this.editModeOn = false;
             let scans = (this.$children[1] as any).getScans();
-            this.set.scans = scans;
             let id = this.$route.params.id;
-            let set = this.set;
-
-            this.$store.dispatch("editSet", [id, set]);
+            for(var key in scans){
+                if (scans.hasOwnProperty(key)) {
+                    console.log(scans[key]);
+                    scans[key].setId = this.set.id;
+                    // this.$store.dispatch("addScan", scans[key]);
+                    console.log(scans[key].barrelNo);
+                    var bar = scans[key].barrelNo;
+                    if(this.$store.state.rundown[this.set.id].hasOwnProperty(bar)){
+                        console.log("yay! ");
+                        console.log(scans[key]);
+                        this.$store.state.rundown[this.set.id][bar] = scans[key].bulletNo;
+                    }else {
+                        
+                        Object.assign(this.$store.state.rundown[this.set.id][bar], {0: scans[key].bulletNo})
+                        this.$store.state.rundown[this.set.id][bar] = new Array<Object>();
+                    //    this.$store.state.rundown[this.set.id][bar] = new Array<Object>();
+                    //    console.log(this.$store.state.rundown[this.set.id][bar]);
+                    //    this.$store.state.rundown[this.set.id][bar].push(scans[key].bulletNo);
+                    //    console.log(this.$store.state.rundown[this.set.id][bar]);
+                    }
+                    //this.$store.state.rundown.push();
+                    console.log(this.$store.state.rundown);
+                    //     () => this.$router.push({ path: '/sets/'+this.set.id })
+                    // );
+                }
+               
+            }
         }
 
         cancel() {
