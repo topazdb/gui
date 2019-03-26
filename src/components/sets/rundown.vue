@@ -25,7 +25,6 @@
         }
 
         get barrels() {
-            console.log(this.$store.state.rundown);
             return this.$store.state.rundown[this.$route.params.id];
         }
         

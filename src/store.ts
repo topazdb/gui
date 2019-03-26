@@ -53,7 +53,6 @@ export default new Store({
                 data: json,
             })
             .then(function (response) {
-                console.log(response);
                 commit("setSet", response.data);
             })
             .catch(function (error) {
@@ -70,8 +69,6 @@ export default new Store({
                 data: {id: id, set}
             })
             .then(function (response) {
-                console.log(response);
-                console.log(response.data);
                 commit("setSet", response.data);
             })
             .catch(function (error) {
@@ -109,6 +106,10 @@ export default new Store({
 
             .then(response => commit("setScans", { id: setId, scans: response.data }))
         },
+
+        /** 
+         * Add scan to set
+         */
         addScan({ commit }, scan) {
             return axios({
                 url: `http://localhost/api/scans/`,
@@ -117,7 +118,25 @@ export default new Store({
                 data: scan
             })
             .then(function (response) {
-                console.log(response);
+                commit("setScans", response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+
+        /** 
+         * Add list of scans to set
+         */
+        addAllScans({ commit }, scans) {
+            let json = JSON.stringify(scans);
+            return axios({
+                url: `http://localhost/api/scans/addAll`,
+                method: 'put',
+                headers: { 'Content-Type': 'application/json'},
+                data: json
+            })
+            .then(function (response) {
                 commit("setScans", response.data);
             })
             .catch(function (error) {
