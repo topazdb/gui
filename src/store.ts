@@ -56,8 +56,8 @@ export default new Store({
 
             return axios({
                 url: `/sets`,
-                method: 'post',
-                headers: { 'Content-Type': 'application/json'},
+                method: "post",
+                headers: { "Content-Type": "application/json"},
                 data: json,
             })
 
@@ -66,7 +66,7 @@ export default new Store({
             })
 
             .catch(function (error) {
-                console.log(error);
+                console.error(error);
             });
         },
 
@@ -76,8 +76,8 @@ export default new Store({
             
             return axios({
                 url: `/sets/${id}`,
-                method: 'put',
-                headers: { 'Content-Type': 'application/json'},
+                method: "put",
+                headers: { "Content-Type": "application/json"},
                 data: {
                     id: id, 
                     set
@@ -89,7 +89,7 @@ export default new Store({
             })
             
             .catch(function (error) {
-                console.log(error);
+                console.error(error);
             });
         },
         /**
@@ -143,8 +143,8 @@ export default new Store({
         addScan({ commit }, scan) {
             return axios({
                 url: `/scans`,
-                method: 'post',
-                headers: { 'Content-Type': 'application/json'},
+                method: "post",
+                headers: { "Content-Type": "application/json"},
                 data: scan
             })
             
@@ -153,7 +153,7 @@ export default new Store({
             })
             
             .catch(function (error) {
-                console.log(error);
+                console.error(error);
             });
         },
 
@@ -164,8 +164,8 @@ export default new Store({
             let json = JSON.stringify(scans);
             return axios({
                 url: `/scans/addAll`,
-                method: 'put',
-                headers: { 'Content-Type': 'application/json'},
+                method: "put",
+                headers: { "Content-Type": "application/json"},
                 data: json
             })
             
@@ -174,9 +174,19 @@ export default new Store({
             })
             
             .catch(function (error) {
-                console.log(error);
+                console.error(error);
             });
         },
+
+        /**
+         * Get parser status
+         */
+        getParserStatus({ commit }) {
+            return axios({
+                url: "/status/parser",
+                method: "get"                
+            });
+        }
     },
     
 
