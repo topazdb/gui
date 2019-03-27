@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <header>
-            <h1>TopazDB</h1>
+            <h1><a href="/" rel="home">TopazDB</a></h1>
         </header>
 
         <router-view></router-view>

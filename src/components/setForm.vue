@@ -82,7 +82,7 @@
         }
         getSetValues(submitEvent){
             let set = {
-                 name: submitEvent.target.elements.name.value
+                name: submitEvent.target.elements.name.value
             }
             let scans = (this.$children[0] as any).getScans();
             let setobj = {

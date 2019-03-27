@@ -7,7 +7,10 @@ import AxiosBase from "axios";
 const URL = typeof location === "undefined" ? "http://api" : "/api";
 const axios = AxiosBase.create({
     baseURL: URL,
-    validateStatus: code => code === 200
+    validateStatus: code => code === 200,
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
 
 Vue.use(Vuex);
@@ -23,7 +26,8 @@ export default new Store({
     state: {
         sets: {},
         rundown: {},
-        scans: {}
+        scans: {},
+        status: {},
     },
 
     actions: {
@@ -57,7 +61,6 @@ export default new Store({
             return axios({
                 url: `/sets`,
                 method: "post",
-                headers: { "Content-Type": "application/json"},
                 data: json,
             })
 
@@ -77,7 +80,6 @@ export default new Store({
             return axios({
                 url: `/sets/${id}`,
                 method: "put",
-                headers: { "Content-Type": "application/json"},
                 data: {
                     id: id, 
                     set
@@ -144,7 +146,6 @@ export default new Store({
             return axios({
                 url: `/scans`,
                 method: "post",
-                headers: { "Content-Type": "application/json"},
                 data: scan
             })
             
@@ -165,7 +166,6 @@ export default new Store({
             return axios({
                 url: `/scans/addAll`,
                 method: "put",
-                headers: { "Content-Type": "application/json"},
                 data: json
             })
             
@@ -179,14 +179,18 @@ export default new Store({
         },
 
         /**
-         * Get parser status
+         * Get populator status
          */
-        getParserStatus({ commit }) {
+        getPopulatorStatus({ commit }) {
             return axios({
-                url: "/status/parser",
+                url: "/status/populator",
                 method: "get"                
-            });
-        }
+            })
+
+            .then(response => 
+                commit("setPopulatorStatus", response.data)
+            )
+        },
     },
     
 
@@ -205,6 +209,10 @@ export default new Store({
 
         setScans(state, { id, scans }) {
             Vue.set(state.scans, id, scans)
+        },
+
+        setPopulatorStatus(state, status) {
+            Vue.set(state.status, "populator", status);
         }
     }
 });
