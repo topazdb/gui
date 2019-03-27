@@ -37,9 +37,6 @@
             text-align: center;
             border-style: solid;
             border-width:thin;
-        }
-        
-        .btn-set {
             margin: 20px;
         }
         .btn-set:hover {

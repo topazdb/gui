@@ -112,7 +112,7 @@
     @Component
     export default class Set extends Vue {
         editModeOn = false;
-        
+
         asyncData({ store, route }: DataParameters) {
             return store.dispatch("getSet", route.params.id);
         } 
@@ -132,7 +132,6 @@
             this.editModeOn = false;
             let scans = (this.$children[1] as any).getScans();
             
-            let id = this.$route.params.id;
             for(var key in scans){
                 if (scans.hasOwnProperty(key)) {
                     scans[key].setId = this.set.id;

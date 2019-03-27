@@ -74,6 +74,7 @@
         float: right;
         display: inline;
     }
+    
     .btn-paging, .btn-add-set {
         background: whitesmoke;
         border-radius: 5px;
@@ -93,7 +94,7 @@
         width: 120px;
         padding: 7px;
     }
-    .btn-paging:hover, .btn-add-set:hover {
+    .btn:hover {
         cursor: pointer;
     }
     .searchbar {
