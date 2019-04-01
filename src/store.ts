@@ -191,6 +191,20 @@ export default new Store({
                 commit("setPopulatorStatus", response.data)
             )
         },
+
+        /**
+         * Get populator errors
+         */
+        getPopulatorErrors({ commit }) {
+            return axios({
+                url: "/status/populator/errors",
+                method: "get"
+            })
+
+            .then(response => 
+                commit("setPopulatorErrors", response.data)
+            );
+        }
     },
     
 
@@ -212,6 +226,12 @@ export default new Store({
         },
 
         setPopulatorStatus(state, status) {
+            Vue.set(state.status, "populator", status);
+        },
+
+        setPopulatorErrors(state, errors) {
+            let status = state.status["populator"] || {};
+            status.errors = errors;
             Vue.set(state.status, "populator", status);
         }
     }
