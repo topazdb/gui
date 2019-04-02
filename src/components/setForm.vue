@@ -10,7 +10,7 @@
             </form>
             <ScanForm></ScanForm>
             <div class="footer-add">
-                <button class="btn btn-set" form="set-add">Add set</button>  
+                <button class="btn-set" form="set-add">Add set</button>  
             </div>
         </div>
                    

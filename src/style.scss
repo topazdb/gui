@@ -75,3 +75,24 @@ main {
 .row {
     display: inline-block;
 }
+
+.btn {
+    background: $primaryColor;
+    color: white;
+    height: 50px;
+    line-height: 20px;
+    padding: 15px;
+    margin: 15px 0;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 5px;
+
+    i {
+        display: inline-block;
+    }
+
+    &:hover {
+        background: darken($primaryColor, 20%);
+    }
+}

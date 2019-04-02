@@ -11,8 +11,9 @@ Vue.filter("format", (date: string, never?: string) => {
     else return moment(date).format(config.dateFormat)
 });
 
-export default () => {
+export default async () => {
     sync(store, router);
+    await store.dispatch("getPopulatorStatus");
 
     return {
         router,
