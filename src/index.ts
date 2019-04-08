@@ -1,7 +1,8 @@
 import Vue, { VNode, ComponentOptions } from "vue";
 import app from "./app.vue";
-import store from "./store";
+import createStore from "./store";
 import router from "./router";
+import createAuth from "./auth";
 import moment from "moment";
 import { config } from "../package.json";
 import { sync } from "vuex-router-sync";
@@ -11,8 +12,15 @@ Vue.filter("format", (date: string, never?: string) => {
     else return moment(date).format(config.dateFormat)
 });
 
-export default async () => {
+
+
+export default async ({ cookies, env }) => {
+    let auth = createAuth({ cookies, env });
+    let store = createStore({ auth });
+
+    Vue.prototype.$auth = auth;
     sync(store, router);
+
     await store.dispatch("getPopulatorStatus");
 
     return {

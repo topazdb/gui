@@ -3,8 +3,23 @@ const fs = require("fs");
 const path = require("path");
 const cp = require("child_process");
 const VueSSR = require("vue-server-renderer");
+const axios = require("axios");
+const querystring = require("querystring");
 
 const LOG_NAME = "error.log";
+const PORT = 80;
+
+const BASEURL = process.env.TOPAZ_BASEURL || "http://localhost";
+
+// okta variables
+const OKTA_DOMAIN = process.env.TOPAZ_OKTA_DOMAIN;
+const OKTA_CLIENT_ID = process.env.TOPAZ_OKTA_CLIENTID;
+const OKTA_CLIENT_SECRET = process.env.TOPAZ_OKTA_CLIENTSECRET;
+
+console.assert(OKTA_DOMAIN !== null);
+console.assert(OKTA_CLIENT_ID !== null);
+console.assert(OKTA_CLIENT_SECRET !== null);
+
 const server = express();
 var serverBundle, clientManifest, renderer;
 
@@ -37,6 +52,7 @@ async function reload() {
             clientManifest
         });
 
+        console.log("reload complete");
         return true;
     } catch(err) {
         console.error("An error occurred reloading the server.  The output has been written to gui/error.log");
@@ -51,28 +67,48 @@ if(process.argv.includes("--watch")) {
     watch.createMonitor(__dirname + "/src", monitor => {
         monitor.on("changed", async () => {
             console.log("Source changed, reloading server");
-            let success = await reload();
-
-            if(success) {
-                console.log("Reload complete");
-            }
+            await reload();
         });
     });
 }
 
+server.use(express.json());
 server.use("/dist", express.static(path.join(__dirname, "./dist")));
+
 server.get("*", (req, res) => {
-    const context = { url: req.url, meta: "", title: "TopazDB" };
+    const context = { 
+        url: req.url, 
+        meta: "", 
+        title: "TopazDB",
+        cookies: req.headers["cookie"],
+    };
     
     renderer.renderToString(context, (err, html) => {
-        if(!err) return res.end(html);
-        if(err.code === 404) res.status(404).end("Page not found");
-        else res.status(500).end("Internal Server Error");
+        console.log(err);
+        let code = err !== null && typeof err.code === "number" ? err.code : 200;
+        res.status(code).end(html);
+
+        let result;
+        switch(code) {            
+            case 404:
+                result = "Page not found";
+                break;
+            
+            case 500:
+                result = "Internal Server Error";
+                break;
+            
+            default:
+            case 200:
+                result = html;
+                break;
+        }
+        
+        res.end(html);
     });
 });
 
-
 (async function() {
     await reload();
-    server.listen(80);
+    server.listen(PORT);
 })();

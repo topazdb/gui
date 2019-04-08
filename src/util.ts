@@ -11,3 +11,30 @@ export function decode(value: string): string {
     value = value.replace(/\%2D/g, "-");
     return value;
 }
+
+const RANDOM_POSSIBLE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
+export function randomString(length: number): string {
+    let result = "";
+    for(let i = 0; i < length; i++) {
+        result += RANDOM_POSSIBLE.charAt(Math.floor(Math.random() * RANDOM_POSSIBLE.length));
+    }
+
+    return result;
+}
+
+export function camel2Underscore(source: string) {
+    let fixed = "";
+
+    for(let i = 0; i < source.length; i++) {
+        let current = source[i];
+        
+        if(current.toLowerCase() === current) {
+            fixed += current;
+        } else {
+            fixed += `_${current.toLowerCase()}`;
+        }
+    }
+
+    return fixed;
+}

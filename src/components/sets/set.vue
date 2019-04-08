@@ -6,8 +6,8 @@
                 <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div> / 
                 <div class="set-lastScanDate">Last updated: <time>{{ set.lastScanDate | format }}</time></div>
             </div>
-            <button class="btn del" @click="remove">Delete Set</button>
-            <button class="btn add-scan" @click="editModeOn=true">Add Scan</button>
+            <button class="del" @click="remove">Delete Set</button>
+            <button class="add-scan" @click="editModeOn=true">Add Scan</button>
         </div>
         <div class="edit" v-if="editModeOn">
             <ScanForm ></ScanForm>

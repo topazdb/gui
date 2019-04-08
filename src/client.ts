@@ -1,8 +1,7 @@
 import create from "./index";
-import Vue from "vue";
 
 void async function main() {
-    const { app, router, store } = await create();
+    const { app, router, store } = await create({ cookies: document.cookie, env: "browser" });
 
     if(window.__INITIAL_STATE__) {
         store.replaceState(window.__INITIAL_STATE__);
