@@ -10,7 +10,7 @@
             </form>
             <ScanForm></ScanForm>
             <div class="footer-add">
-                <button class="btn btn-set" form="set-add">Add set</button>  
+                <button class="btn-set" form="set-add">Add set</button>  
             </div>
         </div>
                    
@@ -79,7 +79,7 @@
         }
         getSetValues(submitEvent){
             let set = {
-                 name: submitEvent.target.elements.name.value
+                name: submitEvent.target.elements.name.value
             }
             let scans = (this.$children[0] as any).getScans();
             let setobj = {

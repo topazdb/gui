@@ -75,7 +75,7 @@
         background: whitesmoke;
         border-radius: 5px;
         height: 30px;
-        width: 100px;
+        width: 130px;
         padding: 5px;
         margin-left: 10px;
         text-align: center;

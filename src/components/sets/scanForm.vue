@@ -63,7 +63,7 @@
         </div>
 
       </form>
-      <button class="btn btn-scan btn-scan-add" form="scan-add-form">Add scan</button>
+      <button class="btn-scan btn-scan-add" form="scan-add-form">Add scan</button>
       <div class="adding">
         <p class="scan-add-placeholder" v-if="noScans">No Scans Added</p>
         <ul class="adding-list">

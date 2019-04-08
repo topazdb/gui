@@ -1,7 +1,15 @@
 <template>
     <main>
-        <h1>Sets</h1>
+        <div class="heading">
+            <h1>Sets</h1>
+            <div class="add-set-option">
+                <a href="/setForm/add" class="btn btn-add-set"><i class="fas fa-plus"></i> Add Set</a>
+            </div>
+        </div>
         <div class="filters">
+            <div class="searchbar">
+                <input type="text" placeholder="Search By Name" v-model="searchBy"/>
+            </div>
             <select @change="sort($event)" class="form-control dropdown" >
                     <option value="0" disabled selected>Sort By</option>
                     <option value="barrelCount">Barrel Count</option>
@@ -16,14 +24,6 @@
                     <option value="100">100</option>
                     <option value="101">All</option>
             </select>
-            <div class="searchbar">
-                <input type="text" placeholder="Search By Name" v-model="searchBy"/>
-            </div>
-            <div class="add-set-option">
-                <router-link :to="{ path: '/setForm/add' }">
-                   <button class="btn btn-add-set" >Add Set</button>
-                </router-link>
-            </div>
         </div>
         
         <ul class="grid">  
@@ -36,14 +36,16 @@
             </li>
         </ul>
         <div class="paging">
-            <button class="btn btn-paging" @click="prevPage">Previous</button>
-            <button class="btn btn-paging" @click="nextPage">Next</button>
+            <button class="btn btn-paging" @click="prevPage"><i class="fas fa-chevron-left"></i></button>
+            <button class="btn btn-paging" @click="nextPage"><i class="fas fa-chevron-right"></i></button>
         </div>
         
     </main>
 </template>
 
 <style lang="scss" scoped>
+    @import "../vars.scss";
+
     .last-updated {
         font-size: 0.8em;
         margin: 5px 0;
@@ -56,14 +58,6 @@
             font-weight: bold;
         }
     }
-
-    .filters {
-        background: #EEE;
-        border-radius: 5px;
-        height:fit-content;
-        padding: 10px;
-        margin: 10px;
-    }
     .dropdown {
         background: whitesmoke;
         border-radius: 5px;
@@ -74,38 +68,77 @@
         float: right;
         display: inline;
     }
-    
-    .btn-paging, .btn-add-set {
+    .btn-paging {
         background: whitesmoke;
+        color: black;
         border-radius: 5px;
+        font-size: initial;
         width: 80px;
         padding: 5px;
         text-align: center;
         border-style: solid;
         border-width:thin;
     }
-    .add-set-option {
-        display: inline;
-    }
-    .btn-add-set {
-        background: #FA8C2D;
-        color: white;
-        float: right;
-        width: 120px;
-        padding: 7px;
+
+    .heading {
+        padding: 0 10px;
+        display: flex;
+        flex-wrap: wrap;
+
+        h1 {
+            flex-basis: 80%;
+            flex-grow: 1;
+        }
+
+        > div {
+            flex-basis: 20%;
+            flex-grow: 1;
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
     }
     .btn:hover {
         cursor: pointer;
     }
-    .searchbar {
-        display: inline;
-    }
-    .searchbar input{
-        border-style: solid;
-        border-width: thin;
-        border-color: rgb(169, 169, 169);
+
+    .filters {
         border-radius: 5px;
-        padding: 5px;
+        height: fit-content;
+        margin: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px solid $primaryColor;
+
+        input, select, .btn {
+            height: 50px;
+            border-radius: 0;
+            border: none;
+        }
+
+        .searchbar {
+            display: inline;
+            flex-basis: 80%;
+            flex-grow: 1;
+
+            input {
+                padding: 0 10px;
+                width: 100%;
+                border-radius: 5px 0 0 5px;
+            }
+        }
+
+        select {
+            flex-basis: 10%;
+            flex-grow: 1;
+
+            &:last-child {
+                border-radius: 0 5px 5px 0;
+            }
+        }
+
     }
 </style>
 

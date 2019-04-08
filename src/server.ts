@@ -1,8 +1,8 @@
 import create from "./index";
 
 export default (context: any) => {
-    return new Promise((resolve, reject) => {
-        const { app, router, store } = create();
+    return new Promise(async (resolve, reject) => {
+        const { app, router, store } = await create();
         router.push(context.url);
 
         router.onReady(() => {
