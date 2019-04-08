@@ -153,6 +153,7 @@ input {
         border-radius: 5px;
         padding: 4px;
         margin-bottom: 10px;
+        margin-left: 5px;
     }
   }
   .adding {

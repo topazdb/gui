@@ -114,7 +114,9 @@
         editModeOn = false;
 
         asyncData({ store, route }: DataParameters) {
-            return store.dispatch("getSet", route.params.id);
+            return store.dispatch("getSet", route.params.id).then(
+                () => store.dispatch("getInstruments")
+            );
         } 
 
         get set() {
