@@ -27,7 +27,12 @@
         </div>
         <h4 class="scan-add-header">Instrument</h4>
 
-        <div class="instrument-container">
+        <select @change="changeOption($event)" class="form-control dropdown" >
+              <option value="new">New</option>
+              <option value="existing">Existing</option>
+        </select>
+
+        <div v-if="newinst" class="instrument-container">
           <div class="scan-add-input">
             <p>Serial No</p>
             <input type="text" name="sn" required>
@@ -50,6 +55,13 @@
             <input type="text" name="manufacturer" required>
           </div>
         </div>
+        
+        <div v-else>       
+           <select class="form-control dropdown" v-model="selected" required>
+              <option v-for="i in instruments" :key="i.id" :value="i.id"> SerialNo: {{i.serialNo}} - Calibrated: {{i.calibrationDate | format}}</option>
+          </select>
+        </div>
+
       </form>
       <button class="btn btn-scan btn-scan-add" form="scan-add-form">Add scan</button>
       <div class="adding">
@@ -129,11 +141,18 @@ input {
     .scan-info,
     .instrument-container {
       padding-bottom: 10px;
+      margin-left: 5px;
     }
     .scan-add-input {
       display: inline-block;
       padding-right: 5px;
       padding-bottom: 5px;
+    }
+    .dropdown {
+        background: whitesmoke;
+        border-radius: 5px;
+        padding: 4px;
+        margin-bottom: 10px;
     }
   }
   .adding {
@@ -166,19 +185,63 @@ import Component from "vue-class-component";
 @Component
 export default class ScanForm extends Vue {
   noScans = true;
+  newinst = true;
   scans: Object[] = [];
-  asyncData({ store, route }: DataParameters) {}
+  tscans: Object[] = [];
+  selected = "";
+  asyncData({ store, route }: DataParameters) {
+    return store.dispatch("getInstruments");
+  }
 
   get tempScans() {
-    return this.scans;
+    return this.tscans;
+  }
+  get instruments(){
+    return this.$store.state.instruments;
+  }
+  changeOption(option){
+      let sel = option.target.value;
+      if(sel === "new"){
+        this.newinst = true;
+      }else{
+        this.newinst = false;
+      }
   }
   getScans() {
     return this.scans;
   }
-  addScan(scan) {
+  addScan(scan,tscan) {
     this.scans.push(scan);
+    this.tscans.push(tscan);
   }
+  getInstrument(submitEvent){
+    let serialNo,calDate,model,version,manufacturer;
+    let instrument;
+    if(this.newinst){
+        serialNo = submitEvent.target.elements.sn.value;
+        calDate = new Date(submitEvent.target.elements.calDate.value);
 
+        model = submitEvent.target.elements.model.value;
+        version = parseInt(submitEvent.target.elements.version.value);
+        manufacturer = submitEvent.target.elements.manufacturer.value;
+        
+        let instrumentType = {
+          model: model,
+          version: version,
+          manufacturer: manufacturer
+        };
+        
+        instrument = {
+          serialNo: serialNo,
+          calibrationDate: calDate,
+          type: instrumentType
+        };
+
+    }else{
+        return this.$store.state.instruments[parseInt(this.selected)];
+    }
+    return instrument;
+  }
   getScanValues(submitEvent) {
     this.noScans = false;
     let barrelNo = parseFloat(submitEvent.target.elements.barrelNo.value);
@@ -189,36 +252,35 @@ export default class ScanForm extends Vue {
 
     let threshold = parseInt(submitEvent.target.elements.threshold.value);
     let resolution = parseInt(submitEvent.target.elements.resolution.value);
+    let scan,tscan;
+    let instrument = this.getInstrument(submitEvent);
 
-    let serialNo = submitEvent.target.elements.sn.value;
-    let calDate = new Date(submitEvent.target.elements.calDate.value);
-
-    let model = submitEvent.target.elements.model.value;
-    let version = parseInt(submitEvent.target.elements.version.value);
-    let manufacturer = submitEvent.target.elements.manufacturer.value;
-
-    let instrumentType = {
-      model: model,
-      version: version,
-      manufacturer: manufacturer
+    scan = {
+        barrelNo: barrelNo,
+        bulletNo: bulletNo,
+        magnification: magnification,
+        threshold: threshold,
+        resolution: resolution, 
+        authorId: 1 //Updating
     };
+    //for display only
+    tscan = {
+        barrelNo: barrelNo,
+        bulletNo: bulletNo,
+        magnification: magnification,
+        threshold: threshold,
+        resolution: resolution, 
+        authorId: 1 
+    };
+    if(this.newinst){
+      scan.instrument = instrument;
+    }else{
+      scan.instrumentId = instrument.id;
+      tscan.instrumentId = instrument.id;
+    }
+    tscan.instrument = instrument;
     
-    let instrument = {
-      serialNo: serialNo,
-      calibrationDate: calDate,
-      type: instrumentType
-    };
-
-    let scan = {
-      barrelNo: barrelNo,
-      bulletNo: bulletNo,
-      magnification: magnification,
-      threshold: threshold,
-      resolution: resolution,
-      instrument: instrument, //Updating
-      authorId: 1 //Updating
-    };
-    this.addScan(scan);
+    this.addScan(scan,tscan);
 
     document.forms["scan-add-form"].reset();
   }

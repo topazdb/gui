@@ -19,7 +19,8 @@ export default new Store({
     state: {
         sets: {},
         rundown: {},
-        scans: {}
+        scans: {},
+        instruments: {}
     },
 
     actions: {
@@ -47,7 +48,7 @@ export default new Store({
         addSet({ commit }, set) {
             let json = JSON.stringify(set);
             return axios({
-                url: `http://localhost/api/sets/`,
+                url: `${URL}/sets/`,
                 method: 'post',
                 headers: { 'Content-Type': 'application/json'},
                 data: json,
@@ -79,7 +80,7 @@ export default new Store({
          * Removing a set
          */
         removeSet({ commit }, id) {
-            return axios.delete(`http://localhost/api/sets/${id}`, { 
+            return axios.delete(`${URL}/sets/${id}`, { 
                 validateStatus: code => code === 200 
             })
             
@@ -112,7 +113,7 @@ export default new Store({
          */
         addScan({ commit }, scan) {
             return axios({
-                url: `http://localhost/api/scans/`,
+                url: `${URL}/scans/`,
                 method: 'post',
                 headers: { 'Content-Type': 'application/json'},
                 data: scan
@@ -131,7 +132,7 @@ export default new Store({
         addAllScans({ commit }, scans) {
             let json = JSON.stringify(scans);
             return axios({
-                url: `http://localhost/api/scans/addAll`,
+                url: `${URL}/scans/addAll`,
                 method: 'put',
                 headers: { 'Content-Type': 'application/json'},
                 data: json
@@ -143,12 +144,33 @@ export default new Store({
                 console.log(error);
             });
         },
+
+         /** 
+         * Get instruments
+         */
+        getInstruments({ commit }) {
+            return axios.get(`${URL}/instruments`, {
+                validateStatus: code => code === 200
+            })
+            
+            .then(response => {
+                commit("clearInstruments");
+                
+                for(let instrument of response.data) {
+                    commit("setInstrument", instrument);
+                }
+            })
+        },
     },
     
 
     mutations: {
         clearSets(state) {
             state.sets = {};
+        },
+
+        clearInstruments(state) {
+            state.instruments = {};
         },
 
         setSet(state, set) {
@@ -161,6 +183,10 @@ export default new Store({
 
         setScans(state, { id, scans }) {
             Vue.set(state.scans, id, scans)
+        },
+
+        setInstrument(state, instrument) {
+            Vue.set(state.instruments, instrument.id, instrument)
         }
     }
 });

@@ -125,7 +125,6 @@
             this.$store.dispatch("removeSet", this.set.id).then(
                 () => this.$router.push({ name: 'home' })
             );
-            
         }
          
         save(){
