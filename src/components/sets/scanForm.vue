@@ -106,10 +106,7 @@
   width: 80px;
   padding: 5px;
   text-align: center;
-  border-style: solid;
-  border-width: thin;
-}
-.btn-scan {
+  border: 1px solid #ccc;
   margin: 5px;
 }
 
@@ -158,8 +155,7 @@ input {
   }
   .adding {
     font-size: 12px;
-    padding-left: 10px;
-    padding-top: 10px;
+    padding: 10px;
     text-decoration: underline;
     .adding-list{
         display: inline-block;
@@ -167,8 +163,9 @@ input {
             display:inline-flex;
             padding: 15px;
             margin: 10px;
-            background: #ccccccb5;
+            background: whitesmoke;
             border-radius: 5px;
+            border: 1px solid #FA8C2D;
             .adding-item-scan {
                 padding-right: 15px;
                 padding-left: 15px;

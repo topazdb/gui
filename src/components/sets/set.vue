@@ -6,8 +6,10 @@
                 <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div> / 
                 <div class="set-lastScanDate">Last updated: <time>{{ set.lastScanDate | format }}</time></div>
             </div>
-            <button class="btn del" @click="remove">Delete Set</button>
-            <button class="btn add-scan" @click="editModeOn=true">Add Scan</button>
+            <div class="opt">
+                <button class="btn del" @click="remove">Delete Set</button>
+                <button class="btn add-scan" @click="editModeOn=true">Add Scan</button>
+            </div>
         </div>
         <div class="edit" v-if="editModeOn">
             <ScanForm ></ScanForm>
@@ -72,7 +74,7 @@
     }
 
     .del, .add-scan {
-        background: whitesmoke;
+        background: $primaryColor;
         border-radius: 5px;
         height: 30px;
         width: 130px;

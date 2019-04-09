@@ -10,7 +10,7 @@
             </form>
             <ScanForm></ScanForm>
             <div class="footer-add">
-                <button class="btn-set" form="set-add">Add set</button>  
+                <button class="btn-set" form="set-add"><i class="fas fa-plus"></i> Add Set</button>  
             </div>
         </div>
                    
@@ -23,24 +23,29 @@
         text-decoration: none;
     }
     .add-set{
-        background: #ccccccb5;
+        background: #eee;
         border-radius: 5px;
         .set-add{
             padding: 20px;
+            border-bottom: 2px solid #FA8C2D
         }
         .btn-set {
-            background: whitesmoke;
-            border-radius: 5px;
-            height: 30px;
-            width: 80px;
-            padding: 5px;
+            background: $primaryColor;
+            border-radius: 0 0 5px 5px;
+            height: 70px;
+            width: 100%;
+            padding: 25px;
             text-align: center;
             border-style: solid;
-            border-width:thin;
-            margin: 20px;
+            border-width: thin;
+            margin: 0;
+            color: white;
+            font-size: 20px;
+
         }
         .btn-set:hover {
             cursor: pointer;
+            background: #bd5a04;
         }
         input {
             height: 25px;
