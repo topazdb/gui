@@ -67,22 +67,28 @@
       <div class="adding">
         <p class="scan-add-placeholder" v-if="noScans">No Scans Added</p>
         <ul class="adding-list">
-          <li class="adding-item" v-for="scan in tempScans" :key="scan.id">
-            <h4>Scan</h4>
-            <div class="adding-item-scan">
-              <p>Barrel No: {{ scan.barrelNo }}</p>
-              <p>Bullet No: {{ scan.bulletNo }}</p>
-              <p>Magnification: {{ scan.magnification }}</p>
-              <p>Threshold: {{ scan.threshold }}</p>
-              <p>Resolution: {{ scan.resolution }}</p>
+          <li class="adding-item" v-for="scan in tempScans" :key="scan.id" @click="remove(scan)">
+            <div class="scan-container">
+              <h4>Scan</h4>
+              <div class="adding-item-scan">
+                <p>Barrel No: {{ scan.barrelNo }}</p>
+                <p>Bullet No: {{ scan.bulletNo }}</p>
+                <p>Magnification: {{ scan.magnification }}</p>
+                <p>Threshold: {{ scan.threshold }}</p>
+                <p>Resolution: {{ scan.resolution }}</p>
+              </div>
+              <div class="adding-item-ins">
+                <p>Serial No: {{ scan.instrument.serialNo }}</p>
+                <p>Model: {{ scan.instrument.type.model }}</p>
+                <p>Version: {{ scan.instrument.type.version }}</p>
+                <p>Manufacturer: {{ scan.instrument.type.manufacturer }}</p>
+              </div> 
             </div>
-            <div class="adding-item-ins">
-              <p>Serial No: {{ scan.instrument.serialNo }}</p>
-              <p>Model: {{ scan.instrument.type.model }}</p>
-              <p>Version: {{ scan.instrument.type.version }}</p>
-              <p>Manufacturer: {{ scan.instrument.type.manufacturer }}</p>
+            <div class="overlay-scan">
+              <div class="text">Remove</div>
             </div>
           </li>
+          
         </ul>
       </div>
     </div>
@@ -157,20 +163,51 @@ input {
     font-size: 12px;
     padding: 10px;
     text-decoration: underline;
-    .adding-list{
+    .adding-list {
         display: inline-block;
-        .adding-item{
-            display:inline-flex;
+        .adding-item {
+            display:inherit;
             padding: 15px;
             margin: 10px;
             background: whitesmoke;
             border-radius: 5px;
             border: 1px solid #FA8C2D;
+            position: relative;
             .adding-item-scan {
                 padding-right: 15px;
                 padding-left: 15px;
             }
+            .scan-container{
+                display:inline-flex;
+            }
         }
+        .adding-item:hover .overlay-scan{
+            opacity: .9;
+            visibility: visible;
+            cursor: pointer;
+        }
+        .overlay-scan {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            transition: .5s, visibility .2s;
+            visibility: hidden;
+            background-color: #bd5a04;
+            color: #eee;
+            text-align: center;
+            .text {
+                  top: 40%;
+                  position: relative;
+                  font-weight:bold;
+            }
+        }
+
+        
     }
   }
 }
@@ -179,7 +216,8 @@ input {
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-
+declare var require: any
+var _ = require('lodash');
 @Component
 export default class ScanForm extends Vue {
   noScans = true;
@@ -187,6 +225,7 @@ export default class ScanForm extends Vue {
   scans: Object[] = [];
   tscans: Object[] = [];
   selected = "";
+  
   asyncData({ store, route }: DataParameters) {
     return store.dispatch("getInstruments");
   }
@@ -197,6 +236,21 @@ export default class ScanForm extends Vue {
   get instruments(){
     return this.$store.state.instruments;
   }
+  
+  remove(scan){
+    console.log(scan);
+    let id = scan.id;
+    console.log("id:"+id);
+    console.log(this.tscans);
+    this.scans = _.remove(this.scans, function(currentScan) {
+                    return currentScan != scan;
+                });
+    this.tscans = _.remove(this.tscans, function(currentScan) {
+                    return currentScan != scan;
+                });
+    console.log(this.tscans);
+  }
+
   changeOption(option){
       let sel = option.target.value;
       if(sel === "new"){
