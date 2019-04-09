@@ -238,17 +238,13 @@ export default class ScanForm extends Vue {
   }
   
   remove(scan){
-    console.log(scan);
     let id = scan.id;
-    console.log("id:"+id);
-    console.log(this.tscans);
     this.scans = _.remove(this.scans, function(currentScan) {
                     return currentScan != scan;
                 });
     this.tscans = _.remove(this.tscans, function(currentScan) {
                     return currentScan != scan;
                 });
-    console.log(this.tscans);
   }
 
   changeOption(option){
