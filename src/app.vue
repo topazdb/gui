@@ -2,6 +2,8 @@
     <div id="app">
         <header>
             <h1><a href="/" rel="home">TopazDB</a></h1>
+            <button v-if="$store.state.authenticated" v-on:click="logout()">Logout</button>
+            <button v-else v-on:click="login()">Login</button>
         </header>
 
         <Announcement v-if="pending">
@@ -26,6 +28,31 @@
 
 <style lang="scss">
     @import "./style.scss";
+
+    header {
+        display: flex;
+
+        h1 {
+            flex-basis: 90%;
+        }
+
+        button {
+            flex-basis: 10%;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            color: white;
+            cursor: pointer;
+
+            &:hover {
+                background: darken($primaryColor, 20%);
+            }
+        }
+    }
 </style>
 
 <script lang="ts">
@@ -33,6 +60,7 @@
     import Component from "vue-class-component";
     import Announcement from "./components/announcement.vue";
     
+
     @Component({
         // @ts-ignore
         components: {
@@ -50,6 +78,20 @@
             if(!this.$store.state.status.populator) return false;
             let code = Number(this.$store.state.status.populator.code);
             return code === 7;
+        }
+
+        async login() {
+            await this.$auth.authenticate("okta");
+            Vue.set(this.$store.state, "authenticated", this.$auth.isAuthenticated());
+        }
+
+        async logout() {
+            await this.$auth.logout();
+            Vue.set(this.$store.state, "authenticated", this.$auth.isAuthenticated());
+        }
+
+        mounted() {
+            this.$store.state.authenticated = this.$auth.isAuthenticated();
         }
     } 
 </script>

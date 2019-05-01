@@ -1,8 +1,16 @@
+import Vue from "vue";
 import create from "./index";
+
+declare var global;
 
 export default (context: any) => {
     return new Promise(async (resolve, reject) => {
-        const { app, router, store } = await create();
+
+        const { app, router, store } = await create({
+            env: "node",
+            cookies: context.cookies,
+        });
+
         router.push(context.url);
 
         router.onReady(() => {

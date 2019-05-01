@@ -2,7 +2,7 @@
     <main>
         <div class="heading">
             <h1>Sets</h1>
-            <div class="add-set-option">
+            <div v-if="$store.state.authenticated" class="add-set-option">
                 <a href="/setForm/add" class="btn btn-add-set"><i class="fas fa-plus"></i> Add Set</a>
             </div>
         </div>

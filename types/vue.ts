@@ -5,11 +5,13 @@ import VueRouter, { Route } from "vue-router";
 
 declare module "vue/types/vue" {
     export interface Vue {
-        options: any;        
+        options: any;      
+        $auth: any;
     }
     
-    export interface Component<V extends Vue> {
+    export interface Component {
         options: any;
+        $auth: any;
     }
 
     export interface VueConstructor {
@@ -17,6 +19,7 @@ declare module "vue/types/vue" {
         store: Store<any>;
         router: VueRouter;
         render: any;
+        auth: any;
     }
 }
 
@@ -25,5 +28,6 @@ declare module "vue/types/options" {
 
     export interface ComponentOptions<V extends Vue> {
         options: any;
+        $auth: any;
     }
 }

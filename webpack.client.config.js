@@ -13,5 +13,11 @@ module.exports = merge(base, {
     plugins: [
         new VueSSRClientPlugin(),
         new FriendlyErrorsWebpackPlugin(),
+        new webpack.EnvironmentPlugin([
+            "TOPAZ_OKTA_DOMAIN",
+            "TOPAZ_OKTA_AUTHSERV",
+            "TOPAZ_OKTA_CLIENTID",
+            "TOPAZ_OKTA_REDIRECTURI",
+        ])
     ]
 });
