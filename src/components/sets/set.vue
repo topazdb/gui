@@ -10,12 +10,7 @@
                     <button class="btn del" @click="remove">Delete Set</button>
                 </div>
             </div>
-<<<<<<< HEAD
             
-=======
-            <button class="del" @click="remove">Delete Set</button>
-            <button class="add-scan" @click="editModeOn=true">Add Scan</button>
->>>>>>> okta
         </div>
         <div class="edit" v-if="editModeOn">
             <ScanForm ></ScanForm>
