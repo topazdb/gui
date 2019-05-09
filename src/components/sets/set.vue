@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div> 
                 <div class="set-lastScanDate">Last updated on <time>{{ set.lastScanDate | format }}</time></div>
-                <div class="opt">
+                <div class="opt" v-if="$store.state.authenticated">
                     <button class="btn add-scan" @click="editModeOn=true">Add Scan</button>
                     <button class="btn del" @click="remove">Delete Set</button>
                 </div>
