@@ -10,6 +10,8 @@
                     Resolution: <span> {{ scan.resolution }}</span> |
                     Magnification: <span>{{ scan.magnification }}</span>
                 </div>
+
+                <h4>Lands:</h4>
                 <ul class="grid lands no-grow">
                     <li v-for="(landId, key) in scan.landIds" :key="landId">
                         <a v-bind:href="'/api/lands/' + landId ">{{ key + 1 }}</a>
@@ -61,6 +63,10 @@
     .scan-list {
         margin: 0 auto;
         list-style-type: none;
+
+        > li {
+            margin: 50px 0;
+        }
 
         h3 {
             text-decoration: none;

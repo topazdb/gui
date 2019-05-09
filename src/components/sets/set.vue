@@ -3,8 +3,8 @@
         <div class="set-head">
             <h1>{{ set.name }}</h1>
             <div class="row">
-                <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div> / 
-                <div class="set-lastScanDate">Last updated: <time>{{ set.lastScanDate | format }}</time></div>
+                <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div> 
+                <div class="set-lastScanDate">Last updated on <time>{{ set.lastScanDate | format }}</time></div>
                 <div class="opt">
                     <button class="btn add-scan" @click="editModeOn=true">Add Scan</button>
                     <button class="btn del" @click="remove">Delete Set</button>
@@ -42,13 +42,7 @@
 
     .row {
         width: 100%;
-        div {
-            display: inline-block;
-            margin: 0 15px;
-            &:first-of-type {
-                margin-left: 0;
-            }
-        }
+
         .opt {
             float:right;
         }
