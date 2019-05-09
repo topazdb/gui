@@ -1,6 +1,6 @@
 <template>
     <main class="Scans">
-        <h2>{{ barrel !== 0 ? `Barrel ${barrel}` : "Unknowns" }}, Bullet {{ bullet }}</h2>
+        <h2>{{ barrel !== '0' ? `Barrel ${barrel}` : "Unknowns" }}, Bullet {{ bullet }}</h2>
         
         <ul class="scan-list no-grow">
             <li v-for="scan in scans" :key="scan.id">
