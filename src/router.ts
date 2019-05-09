@@ -3,7 +3,6 @@ import Router from "vue-router";
 import { Home, SetForm, ScanForm, PageNotFound, Status } from "./components";
 import { Set, Rundown, Scans } from "./components/sets";
 
-
 Vue.use(Router);
 
 export default new Router({
@@ -27,7 +26,7 @@ export default new Router({
             component: Set,
             children: [
                 { path: "/", component: Rundown },
-                { name: "scans", path: "/:barrel/:bullet", component: Scans },
+                { name: "scans", path: ":barrel/:bullet", component: Scans },
                 { name: "ScanForm", path: "/", component: ScanForm }
             ]
         },
@@ -36,6 +35,5 @@ export default new Router({
             path: "/status",
             component: Status,
         },
-        { path: '*', component: PageNotFound}
     ]
 }); 

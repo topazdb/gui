@@ -2,17 +2,15 @@
     <main class="Scans">
         <ul class="set-barrels scan-barrels grid no-grow">
             <li v-for="scan in scans" :key="scan.id">
-                <router-link :to="{ name: '' }">
-                    <h3>Scan {{ scan.id }}</h3>
-                    <div class="counts">
-                        Barrel: <span> {{ scan.barrelNo }}</span> 
-                    </div>
-                        <div class="counts">
-                        Threshold: <span> {{ scan.threshold }}</span><br>
-                        Resolution: <span> {{ scan.resolution }}</span><br>
-                        Magnification: <span>{{ scan.magnification }}</span><br>
-                    </div>
-                </router-link>
+                <h3>Scan {{ scan.id }} by {{ scan.author.name }}</h3>
+                <div class="counts">
+                    Barrel: <span> {{ scan.barrelNo }}</span> 
+                </div>
+                <div class="counts">
+                    Threshold: <span> {{ scan.threshold }}</span><br>
+                    Resolution: <span> {{ scan.resolution }}</span><br>
+                    Magnification: <span>{{ scan.magnification }}</span><br>
+                </div>
             </li>
         </ul>
     </main>

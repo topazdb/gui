@@ -10,12 +10,12 @@ export default (context: any) => {
             env: "node",
             cookies: context.cookies,
         });
-
+        console.log(router);
         router.push(context.url);
 
         router.onReady(() => {
             const matched = router.getMatchedComponents() as any;
-            if(!matched.length) return reject({ code: 404 });
+            if(matched.length === 0) return reject({ code: 404 });
 
             Promise.all(matched.map(component => {
                 const methods = component.options.methods;

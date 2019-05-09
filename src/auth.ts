@@ -54,7 +54,7 @@ export default function createAuth({ cookies, env }) {
 
     if(env === "node") {
         auth.storage.__proto__._getCookie = function() {
-            return cookies;
+            return cookies || '';
         }
     }
 
