@@ -1,16 +1,20 @@
 <template>
     <main class="Scans">
-        <ul class="set-barrels scan-barrels grid no-grow">
+        <h2>Barrel {{ barrel }}, Bullet {{ bullet }}</h2>
+        
+        <ul class="scan-list no-grow">
             <li v-for="scan in scans" :key="scan.id">
-                <h3>Scan {{ scan.id }} by {{ scan.author.name }}</h3>
+                <h3>Scan by {{ scan.author.name }} on {{ scan.creationDate | format }}</h3>
                 <div class="counts">
-                    Barrel: <span> {{ scan.barrelNo }}</span> 
+                    Threshold: <span> {{ scan.threshold }}</span> |
+                    Resolution: <span> {{ scan.resolution }}</span> |
+                    Magnification: <span>{{ scan.magnification }}</span>
                 </div>
-                <div class="counts">
-                    Threshold: <span> {{ scan.threshold }}</span><br>
-                    Resolution: <span> {{ scan.resolution }}</span><br>
-                    Magnification: <span>{{ scan.magnification }}</span><br>
-                </div>
+                <ul class="grid lands no-grow">
+                    <li v-for="(landId, key) in scan.landIds" :key="landId">
+                        <a v-bind:href="'/api/lands/' + landId ">{{ key + 1 }}</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </main>
@@ -54,16 +58,22 @@
         }
     }    
 
-    .scan-barrels {
+    .scan-list {
         margin: 0 auto;
-        display: table;
-        li {
-            font-size: 10px;
-            text-align: center;
-            font-weight: bold;
-            line-height: 10px;
-            display: inline-block;
-            width: 200px;
+        list-style-type: none;
+
+        h3 {
+            text-decoration: none;
+        }
+
+        .lands {
+            margin: 15px 0;
+
+            li {
+                flex-basis: calc(90% / 6);
+                font-size: 50px;
+                text-align: center;
+            }
         }
     }
 
@@ -101,6 +111,10 @@
 
         get sets() {
             return this.$store.state.sets;
+        }
+
+        get barrel() {
+            return this.$route.params.barrel;
         }
 
         get bullet(){

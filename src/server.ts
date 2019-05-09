@@ -10,7 +10,7 @@ export default (context: any) => {
             env: "node",
             cookies: context.cookies,
         });
-        console.log(router);
+    
         router.push(context.url);
 
         router.onReady(() => {
