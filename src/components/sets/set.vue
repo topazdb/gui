@@ -1,10 +1,16 @@
 <template>
     <main class="set">
         <div class="set-head">
-            <h1>{{ set.name }}</h1>
+            <h1>
+                {{ set.name }}
+            </h1>
+            <h2 v-if="'bullet' in $route.params">
+                {{ barrel === '0' ? "Unknowns" : `Barrel ${barrel}` }},
+                Bullet {{ bullet }}
+            </h2>
             <div class="row">
-                <div class="set-creationDate">Created on <time>{{ set.creationDate | format }}</time></div> 
-                <div class="set-lastScanDate">Last updated on <time>{{ set.lastScanDate | format }}</time></div>
+                <div class="set-creationDate">Set created on <time>{{ set.creationDate | format }}</time></div> 
+                <div class="set-lastScanDate">Set last updated on <time>{{ set.lastScanDate | format }}</time></div>
                 <div class="opt" v-if="$store.state.authenticated">
                     <button class="btn add-scan" @click="editModeOn=true">Add Scan</button>
                     <button class="btn del" @click="remove">Delete Set</button>
@@ -120,6 +126,18 @@
 
         get set() {
             return this.$store.state.sets[this.$route.params.id];
+        }
+
+        get view() {
+            return "bullet" in this.$route.params ? "rundown" : "scans";
+        }
+
+        get barrel() {
+            return this.$route.params.barrel;
+        }
+
+        get bullet() {
+            return this.$route.params.bullet;
         }
 
         remove(){

@@ -1,17 +1,23 @@
 <template>
-    <main class="Scans">
-        <h2>{{ barrel !== '0' ? `Barrel ${barrel}` : "Unknowns" }}, Bullet {{ bullet }}</h2>
-        
+    <main class="Scans">        
         <ul class="scan-list no-grow">
-            <li v-for="scan in scans" :key="scan.id">
-                <h3>Scan by {{ scan.author.name }} on {{ scan.creationDate | format }}</h3>
-                <div class="counts">
-                    Threshold: <span> {{ scan.threshold }}</span> |
-                    Resolution: <span> {{ scan.resolution }}</span> |
+            <li v-for="scan in scans" :key="scan.id" class="scan">
+                <h2>Scan by {{ scan.author.name }} on {{ scan.creationDate | format }}</h2>
+                <div class="image-settings metadata">
+                    <strong>Image Settings:</strong> 
+                    Threshold: <span> {{ scan.threshold }}</span>,
+                    Resolution: <span> {{ scan.resolution }}</span>,
                     Magnification: <span>{{ scan.magnification }}</span>
                 </div>
 
-                <h4>Lands:</h4>
+                <div class="instrument metadata">
+                    <strong>Instrument Used:</strong>
+                    {{ scan.instrument.type.model }} 
+                    {{ scan.instrument.type.version }} 
+                    {{ scan.instrument.serialNo !== null ? `(Serial No: ${scan.instrument.serialNo})` : '' }}
+                </div>
+
+                <h3>Lands:</h3>
                 <ul class="grid lands no-grow">
                     <li v-for="(landId, key) in scan.landIds" :key="landId">
                         <a v-bind:href="'/api/lands/' + landId ">{{ key + 1 }}</a>
@@ -27,26 +33,6 @@
 
     h3 {
         text-decoration: underline;
-    }
-    
-    .counts {
-        font-size: 1.2em;
-        font-weight: normal;
-        text-align: left;
-            
-        span {
-            font-weight: bold;
-            line-height: 20px;
-        }
-    }
-
-    .scans {
-        padding: 15px;
-
-        .set-head {
-            padding: 20px 0;
-            border-bottom: 5px solid $primaryColor;
-        }
     }
 
     .row {
@@ -64,21 +50,26 @@
         margin: 0 auto;
         list-style-type: none;
 
-        > li {
+        .scan {
             margin: 50px 0;
-        }
 
-        h3 {
-            text-decoration: none;
-        }
+            .metadata {
+                margin: 15px 0;
+                
+                strong {
+                    display: inline-block;
+                    min-width: 100px;
+                }
+            }
 
-        .lands {
-            margin: 15px 0;
+            .lands {
+                margin: 15px 0;
 
-            li {
-                flex-basis: calc(90% / 6);
-                font-size: 50px;
-                text-align: center;
+                li {
+                    flex-basis: calc(90% / 6);
+                    font-size: 50px;
+                    text-align: center;
+                }
             }
         }
     }
