@@ -1,7 +1,6 @@
 import { camel2Underscore, randomString } from "./util";
 import Axios from "axios";
 import { VueAuthenticate } from "vue-authenticate";
-import { parseCookies } from "vue-authenticate/src/utils";
 
 /// okta variables
 const OKTA_DOMAIN = process.env.TOPAZ_OKTA_DOMAIN;
