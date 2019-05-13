@@ -5,9 +5,9 @@
             
             <ul class="bullets grid no-grow">
                 <li v-for="bullet in bullets" :key="bullet">
-                    <router-link :to="{ path: `/sets/${setId}/${barrel}/${bullet}` }">
+                    <a v-bind:href="'sets/' + setId + '/' + barrel + '/' + bullet">
                         <div class="barrel-number">{{ bullet }}</div>
-                    </router-link>
+                    </a>
                 </li>
             </ul>
         </li>

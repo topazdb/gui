@@ -63,7 +63,8 @@ async function reload() {
         renderer = VueSSR.createBundleRenderer(serverBundle, {
             runInNewContext: false,
             template: fs.readFileSync("./index.html", "utf-8"),
-            clientManifest
+            clientManifest,
+            inject: false
         });
 
         console.log("reload complete");
@@ -92,6 +93,7 @@ server.use("/dist", express.static(path.join(__dirname, "./dist")));
 server.get("*", (req, res) => {
     const context = { 
         url: req.url, 
+        base: BASEURL,
         meta: "", 
         title: "TopazDB",
         cookies: req.headers["cookie"],

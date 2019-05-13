@@ -20,7 +20,7 @@
                 <h3>Lands:</h3>
                 <ul class="grid lands no-grow">
                     <li v-for="(landId, key) in scan.landIds" :key="landId">
-                        <a v-bind:href="'/api/lands/' + landId " class="fix3p" target="blank">{{ key + 1 }}</a>
+                        <a v-bind:href="'api/lands/' + landId " class="fix3p" target="blank">{{ key + 1 }}</a>
                     </li>
                 </ul>
             </li>
