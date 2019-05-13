@@ -9,7 +9,7 @@ const querystring = require("querystring");
 const LOG_NAME = "error.log";
 const PORT = 80;
 
-const BASEURL = process.env.TOPAZ_BASEURL || "http://localhost";
+const BASEURL = process.env.TOPAZ_BASEURL || "http://isu-csafe.stat.iastate.edu/topazdb/";
 
 // okta variables
 const OKTA_DOMAIN = process.env.TOPAZ_OKTA_DOMAIN;
