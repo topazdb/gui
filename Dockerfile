@@ -7,5 +7,7 @@ FROM node as production
 WORKDIR /app
 COPY . .
 RUN npm run clean
-RUN npm i
+RUN npm install
+RUN NODE_ENV=production npm run build
+CMD [ "npm", "start" ]
 EXPOSE 80

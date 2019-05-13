@@ -15,10 +15,13 @@ const BASEURL = process.env.TOPAZ_BASEURL || "http://localhost";
 const OKTA_DOMAIN = process.env.TOPAZ_OKTA_DOMAIN;
 const OKTA_CLIENT_ID = process.env.TOPAZ_OKTA_CLIENTID;
 const OKTA_CLIENT_SECRET = process.env.TOPAZ_OKTA_CLIENTSECRET;
+const OKTA_AUTHSERV = process.env.TOPAZ_OKTA_AUTHSERV;
+const OKTA_REDIRECTURI = process.env.TOPAZ_OKTA_REDIRECTURI;
 
 console.assert(OKTA_DOMAIN !== null);
 console.assert(OKTA_CLIENT_ID !== null);
 console.assert(OKTA_CLIENT_SECRET !== null);
+console.assert(OKTA_REDIRECTURI !== null);
 
 const server = express();
 var serverBundle, clientManifest, renderer;
@@ -38,8 +41,19 @@ function exec(command) {
 
 async function reload() {
     try {
-        let result = await exec("npm run --silent build");
-        if(!result.match(/Build Complete/g)) return;
+
+        if(process.env.NODE_ENV !== "production") {
+            let result = await exec("npm run --silent build");
+            if(!result.match(/Build Complete/g)) return;
+        } else {
+            var client = fs.readFileSync("./dist/client.js");
+            client = client.replace("{{TOPAZ_OKTA_DOMAIN}}", OKTA_DOMAIN);
+            client = client.replace("{{TOPAZ_OKTA_AUTHSERV}}", OKTA_AUTHSERV);
+            client = client.replace("{{TOPAZ_OKTA_CLIENTID}}", OKTA_CLIENT_ID);
+            client = client.replace("{{TOPAZ_OKTA_REDIRECTURI}}", OKTA_REDIRECTURI);
+
+            fs.writeFileSync("./dist/client.js", client);
+        }
 
         delete require.cache[require.resolve("./dist/vue-ssr-server-bundle.json")];
         delete require.cache[require.resolve("./dist/vue-ssr-client-manifest.json")];
