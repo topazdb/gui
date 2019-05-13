@@ -3,9 +3,9 @@ WORKDIR /app
 VOLUME "/app"
 EXPOSE 80
 
-FROM development as production
+FROM node as production
 WORKDIR /app
 COPY . .
 RUN npm run clean
-RUN npm i && npm run build
+RUN npm i
 EXPOSE 80
