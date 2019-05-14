@@ -2,10 +2,8 @@ import Vue from "vue";
 import { Route } from "vue-router";
 import Vuex, { Store } from "vuex";
 import createAuth from "./auth";
+import { removeTrailingSlash } from "./util";
 import AxiosBase from "axios";
-
-const MODE = typeof document === "undefined" ? "node" : "browser";
-const URL = MODE === "node" ? "http://api" : "/api";
 
 Vue.use(Vuex);
 
@@ -16,9 +14,18 @@ declare global {
     }
 }
 
-export default function createStore({ auth }) {
+export default function createStore({ auth, env }) {
+
+    let baseURL = "http://api";
+    
+    if(env !== "node") {
+        let baseTag = document.querySelector("base") as HTMLElement;
+        let baseHref = baseTag.getAttribute("href") as string;
+        baseURL = removeTrailingSlash(baseHref) + "/api";
+    }
+    
     let axios = AxiosBase.create({
-        baseURL: URL,
+        baseURL,
         validateStatus: code => code === 200,
         headers: {
             "Content-Type": "application/json",

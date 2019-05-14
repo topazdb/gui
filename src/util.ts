@@ -38,3 +38,11 @@ export function camel2Underscore(source: string) {
 
     return fixed;
 }
+
+export function removeTrailingSlash(source: string) {
+    while(source.charAt(source.length - 1) === "/") {
+        source = source.substring(0, source.length - 1);
+    }
+
+    return source;
+}

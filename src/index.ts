@@ -16,7 +16,7 @@ Vue.filter("format", (date: string, never?: string) => {
 
 export default async ({ cookies, env }) => {
     let auth = createAuth({ cookies, env });
-    let store = createStore({ auth });
+    let store = createStore({ auth, env });
 
     Vue.prototype.$auth = auth;
     sync(store, router);
