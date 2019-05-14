@@ -9,6 +9,7 @@ export default (context: any) => {
         const { app, router, store } = await create({
             env: "node",
             cookies: context.cookies,
+            apiBaseUrl: "http://api",
         });
     
         router.push(context.url);

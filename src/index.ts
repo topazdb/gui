@@ -12,11 +12,9 @@ Vue.filter("format", (date: string, never?: string) => {
     else return moment(date).format(config.dateFormat)
 });
 
-
-
-export default async ({ cookies, env }) => {
+export default async ({ cookies, env, apiBaseUrl }) => {
     let auth = createAuth({ cookies, env });
-    let store = createStore({ auth, env });
+    let store = createStore({ auth, env, apiBaseUrl });
 
     Vue.prototype.$auth = auth;
     sync(store, router);

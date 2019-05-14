@@ -14,18 +14,10 @@ declare global {
     }
 }
 
-export default function createStore({ auth, env }) {
-
-    let baseURL = "http://api";
-    
-    if(env !== "node") {
-        let baseTag = document.querySelector("base") as HTMLElement;
-        let baseHref = baseTag.getAttribute("href") as string;
-        baseURL = removeTrailingSlash(baseHref) + "/api";
-    }
+export default function createStore({ auth, env, apiBaseUrl }) {
     
     let axios = AxiosBase.create({
-        baseURL,
+        baseURL: apiBaseUrl,
         validateStatus: code => code === 200,
         headers: {
             "Content-Type": "application/json",

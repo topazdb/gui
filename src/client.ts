@@ -1,7 +1,18 @@
 import create from "./index";
+import { removeTrailingSlash } from "./util";
 
 void async function main() {
-    const { app, router, store } = await create({ cookies: document.cookie, env: "browser" });
+
+    // retrieve base url from the <base> tag
+    let baseTag = document.querySelector("base") as HTMLElement;
+    let baseURL = baseTag.getAttribute("href") as string;
+    let apiBaseUrl = removeTrailingSlash(baseURL) + "/api";
+
+    const { app, router, store } = await create({ 
+        cookies: document.cookie, 
+        env: "browser",
+        apiBaseUrl,
+    });
 
     if(window.__INITIAL_STATE__) {
         store.replaceState(window.__INITIAL_STATE__);
