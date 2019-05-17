@@ -7,7 +7,7 @@ import AxiosBase from "axios";
 
 Vue.use(Vuex);
 
-const HANDLED_SCHEMA_VERSION = 1;
+const HANDLED_SCHEMA_VERSION = 2;
 
 declare global {
     export interface DataParameters {
