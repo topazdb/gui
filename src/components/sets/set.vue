@@ -154,7 +154,7 @@
 
 
         get name() {
-            let nodes = [] as { id: number; name: string; childPrefix: string|null; }[];
+            let nodes = [] as { id: number; name: string; childPrefix: string|null; ignorePrefix: boolean }[];
             let current = this.set;
 
             do {
@@ -164,8 +164,9 @@
 
             let name = "";
             for(let i = 0; i < nodes.length; i++) {
+                let includePrefix = i !== 0 && nodes[i - 1].childPrefix !== null && !nodes[i].ignorePrefix;
                 name += `<a href="sets/${nodes[i].id}">`;
-                name += i !== 0 && nodes[i - 1].childPrefix !== null ? `${nodes[i - 1].childPrefix} ${nodes[i].name}` : `${nodes[i].name}`;
+                name += includePrefix ? `${nodes[i - 1].childPrefix} ${nodes[i].name}` : `${nodes[i].name}`;
                 name += `</a>`;
                 name += i !== nodes.length - 1 ? " - " : "";
             }

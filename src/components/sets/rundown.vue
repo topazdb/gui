@@ -2,7 +2,7 @@
     <ul class="grid no-grow">
         <li v-for="subset in set.subsets" :key="subset.name">
             <a v-bind:href="'sets/' + subset.id">
-                <h3>{{ set.childPrefix }} {{ subset.name }}</h3>
+                <h3>{{ set.childPrefix !== null && !subset.ignorePrefix ? set.childPrefix + " " : "" }}{{ subset.name }}</h3>
             </a>
         </li>
     </ul>
