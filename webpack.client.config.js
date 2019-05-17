@@ -17,7 +17,6 @@ module.exports = merge(base, {
     entry: "./src/client.ts",
     output: {
         filename: "client.js",
-        publicPath: "dist/",
     },
     plugins: [
         new VueSSRClientPlugin(),
