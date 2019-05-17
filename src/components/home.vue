@@ -31,7 +31,6 @@
                 <a v-bind:href="'sets/' + set.id">
                     <h3>{{ set.name }}</h3>
                     <div class="last-updated">Last updated: <time>{{ set.lastScanDate | format }}</time></div>
-                    <div class="counts"><span>{{ set.barrelCount }}</span> Barrels, <span>{{ set.bulletCount }}</span> Bullets</div>
                 </a>
             </li>
         </ul>
