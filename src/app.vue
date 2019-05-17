@@ -1,9 +1,9 @@
 <template>
     <div id="app">
         <header>
-            <h1><a href="" rel="home">TopazDB</a></h1>
+            <h1><a href="" rel="home"><img src="@/img/csafe-logo.svg"> TopazDB</a></h1>
             <button v-if="$store.state.authenticated" v-on:click="logout()">Logout</button>
-            <button v-else v-on:click="login()">Login</button>
+            <button v-else>Login - Coming Soon</button>
         </header>
 
         <Announcement v-if="pending">

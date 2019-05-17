@@ -46,6 +46,10 @@ module.exports = {
                     "css-loader",
                     "sass-loader"
                 ]
+            },
+            {
+                test: /\.svg$/,
+                use: "file-loader"
             }
         ]
     },
@@ -53,7 +57,8 @@ module.exports = {
     resolve: {
         extensions: [".ts", ".js", ".vue", ".json"],
         alias: {
-            "vue$": "vue/dist/vue.common.js"
+            "vue$": "vue/dist/vue.common.js",
+            "@": path.resolve("src"),
         }
     },
 
