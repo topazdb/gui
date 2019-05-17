@@ -8,7 +8,7 @@ void async function main() {
     let baseURL = baseTag.getAttribute("href") as string;
     let apiBaseUrl = removeTrailingSlash(baseURL) + "/api";
 
-    const { app, router, store } = await create({ 
+    const { app, router, store, mode } = await create({ 
         cookies: document.cookie, 
         env: "browser",
         apiBaseUrl,
@@ -19,6 +19,8 @@ void async function main() {
     }
 
     router.beforeResolve((to, from, next) => {
+        if(mode === "maintenance") throw new Error("503");
+
         const matched = router.getMatchedComponents(to) as any[];
 
         Promise.all(matched.map(c => {

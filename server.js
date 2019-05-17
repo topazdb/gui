@@ -102,22 +102,23 @@ server.get("*", (req, res) => {
     renderer.renderToString(context, (err, html) => {
         console.log(err);
         let code = err !== null && typeof err.code === "number" ? err.code : 200;
-        res.status(code).end(html);
+        res.status(code);
 
-        let result;
         switch(code) {            
             case 404:
-                result = "Page not found";
+                html = "Page not found";
                 break;
             
             case 500:
-                result = "Internal Server Error";
+                html = "Internal Server Error";
+                break;
+
+            case 503:
+                html = "TopazDB is currently undergoing maintenance.  Please check back later.";
                 break;
             
             default:
-            case 200:
-                result = html;
-                break;
+            case 200: break;
         }
         
         res.end(html);

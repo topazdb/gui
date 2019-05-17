@@ -7,6 +7,8 @@ import AxiosBase from "axios";
 
 Vue.use(Vuex);
 
+const HANDLED_SCHEMA_VERSION = 1;
+
 declare global {
     export interface DataParameters {
         store: Store<any>,
@@ -15,7 +17,7 @@ declare global {
 }
 
 export default function createStore({ auth, env, apiBaseUrl }) {
-    
+
     let axios = AxiosBase.create({
         baseURL: apiBaseUrl,
         validateStatus: code => code === 200,
@@ -29,6 +31,19 @@ export default function createStore({ auth, env, apiBaseUrl }) {
                 }
             }
         ]
+    });
+
+    axios.interceptors.response.use(function(response) {
+        let schemaVersion = 1;
+        if("x-topaz-schema-version" in response.headers) {
+            schemaVersion = parseInt(response.headers["x-topaz-schema-version"]);
+        }
+
+        if(schemaVersion !== HANDLED_SCHEMA_VERSION) {
+            return Promise.reject("Unhandled schema version");
+        }
+
+        return response;
     });
 
     return new Store({

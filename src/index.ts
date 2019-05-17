@@ -15,15 +15,22 @@ Vue.filter("format", (date: string, never?: string) => {
 export default async ({ cookies, env, apiBaseUrl }) => {
     let auth = createAuth({ cookies, env });
     let store = createStore({ auth, env, apiBaseUrl });
+    let mode = "normal";
 
     Vue.prototype.$auth = auth;
     sync(store, router);
 
-    await store.dispatch("getPopulatorStatus");
+    try {
+        await store.dispatch("getPopulatorStatus");
+
+    } catch(exception) {
+        mode = "maintenance";
+    }
 
     return {
         router,
         store,
+        mode,
         app: new Vue({
             router, 
             store,

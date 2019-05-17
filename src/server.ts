@@ -6,12 +6,16 @@ declare var global;
 export default (context: any) => {
     return new Promise(async (resolve, reject) => {
 
-        const { app, router, store } = await create({
+        const { app, router, store, mode } = await create({
             env: "node",
             cookies: context.cookies,
             apiBaseUrl: "http://api",
         });
-    
+        
+        if(mode === "maintenance") {
+            return reject({ code: 503 });
+        }
+
         router.push(context.url);
 
         router.onReady(() => {
