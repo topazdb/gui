@@ -3,8 +3,10 @@ const fs = require("fs");
 const path = require("path");
 const cp = require("child_process");
 const VueSSR = require("vue-server-renderer");
+const LRU = require("lru-cache");
 const axios = require("axios");
 const querystring = require("querystring");
+const cache = new LRU({ max: 10000, maxAge: 100000 });
 
 const LOG_NAME = "error.log";
 const PORT = 80;
@@ -64,7 +66,8 @@ async function reload() {
             runInNewContext: false,
             template: fs.readFileSync("./index.html", "utf-8"),
             clientManifest,
-            inject: false
+            inject: false,
+            cache,
         });
 
         console.log("reload complete");

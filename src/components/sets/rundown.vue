@@ -1,35 +1,30 @@
 <template>
-    <ul class="barrels">
-        <li v-for="(bullets, barrel) in barrels" :key="barrel">
-            <h3>{{ parseInt(barrel) === 0 ? "Unknowns" : `Barrel ${barrel}` }}</h3>
-            
-            <ul class="bullets grid no-grow">
-                <li v-for="bullet in bullets" :key="bullet">
-                    <a v-bind:href="'sets/' + setId + '/' + barrel + '/' + bullet">
-                        <div class="barrel-number">{{ bullet }}</div>
-                    </a>
-                </li>
-            </ul>
+    <ul class="grid no-grow">
+        <li v-for="subset in set.subsets" :key="subset.name">
+            <a v-bind:href="'sets/' + subset.id">
+                <h3>{{ set.childPrefix }} {{ subset.name }}</h3>
+            </a>
         </li>
     </ul>
 </template>
 
+<style scoped>
+    @import "../../vars.scss";
+
+    
+</style>
+
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
+    import Prop from "vue-property-decorator";
 
-    @Component
-    export default class Barrels extends Vue {
-        asyncData({ store, route }) {
-            return store.dispatch("getRundown", route.params.id);
-        }
-
-        get barrels() {
-            return this.$store.state.rundown[this.$route.params.id];
-        }
-        
-        get setId() {
-            return this.$route.params.id;
-        }
+    @Component({
+        // @ts-ignore
+        name: "rundown",
+        props: ["set"]
+    })
+    export default class Rundown extends Vue {
+        asyncData() {}
     }
 </script>
