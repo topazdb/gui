@@ -28,11 +28,11 @@
     </main>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
     @import "../../vars.scss";
 
-    h3 {
-        text-decoration: underline;
+    h2 {
+        color: $primaryColor;
     }
 
     .row {
